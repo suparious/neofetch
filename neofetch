@@ -780,8 +780,8 @@ image_source="auto"
 #       Bodhi, bonsai, BSD, BunsenLabs, Calculate, Carbs, CentOS, Chakra, ChaletOS,
 #       Chapeau, Chrom*, Cleanjaro, ClearOS, Clear_Linux, Clover, Condres,
 #       Container_Linux, Crystal Linux, CRUX, Cucumber, dahlia, Debian, Deepin,
-#       DesaOS, Devuan, DracOS, DarkOs, Itc, DragonFly, Drauger, Elementary,
-#       EndeavourOS, EncryptOS, Endless, EuroLinux, Exherbo, Fedora, Feren, FreeBSD,
+#       DesaOS, Devuan, DracOS, DarkOs, Itc, DragonFly, Drauger, Elementary, Elive,
+#       EndeavourOS, Endless, EuroLinux, Exherbo, Fedora, Feren, FreeBSD,
 #       FreeMiNT, Frugalware, Funtoo, GalliumOS, Garuda, Gentoo, Pentoo,
 #       gNewSense, GNOME, GNU, GoboLinux, Grombyang, Guix, Haiku, Huayra, HydroOS
 #       Hyperbola, iglunix, janus, Kali, KaOS, KDE_neon, Kibojoe, Kogaion, Korora,
@@ -4987,8 +4987,8 @@ ASCII:
                                 Calculate, CalinixOS, Carbs, CentOS, Chakra, ChaletOS, Chapeau, Chrom,
                                 Cleanjaro, ClearOS, Clear_Linux, Clover, Condres, Container_Linux,
                                 Crystal Linux, CRUX, Cucumber, dahlia, Debian, Deepin, DesaOS, Devuan,
-                                DracOS, DarkOs, Itc, DragonFly, Drauger, Elementary, EndeavourOS, Endless,
-                                EuroLinux, Exherbo, Fedora, Feren, Finnix, FreeBSD, FreeMiNT, Frugalware,
+                                DracOS, DarkOs, Itc, DragonFly, Drauger, Elementary, Elive, EndeavourOS, Endless,
+                                EuroLinux, Exherbo, Fedora, Feren, FreeBSD, FreeMiNT, Frugalware,
                                 Funtoo, GalliumOS, Garuda, Gentoo, Pentoo, gNewSense, GNOME, GNU,
                                 GoboLinux, Grombyang, Guix, Haiku, Huayra, Hyperbola, janus, Kali,
                                 KaOS, KDE_neon, Kibojoe, Kogaion, Korora, KSLinux, Kubuntu, LEDE,
@@ -7174,6 +7174,30 @@ eee    eeeeeeeeee     eeeeee    eee
     eeeee                 eeeee
       eeeeeee         eeeeeee
          eeeeeeeeeeeeeeeee
+EOF
+        ;;
+
+        "Elive"*)
+        set_colors 7 6 6
+            read -rd '' ascii_data <<'EOF'
+${c1}
+             *@${c2},,&(%%%..%*.
+         ${c1}(@${c2}&%/##############((/${c1}*,
+      ${c2}@${c1}@&${c2}#########${c1}*..../${c2}########%${c1}*..
+    ${c2}@${c1}&${c2}#%%%%%.              ${c3},.${c1},${c2}%%%%%%.
+  /%${c2}(%%%%.                      ${c1}(${c2}%%%%#.
+ /${c1}*${c2}%%##,.                       .,%%###,
+ ,####.   ,${c1}*${c2}#%${c1}#${c3}/,(/               ${c2}/${c1}#${c2}###,
+((###/   ,,##########${c1}(${c3}/(#          ${c2}%####,
+%#(((${c1}.   .${c1}./${c2}((((((((((((((${c1}(${c2}#/${c3}*..   ${c3}*.${c2}(((${c1}/
+${c2}%#///${c1}.        ${c3}***${c2}.*/////////////
+${c3}#${c2}#////*              ${c3}***${c2}.*/////.
+ ${c3}(${c2}(*****                   ${c3}***
+  ${c2},*****..
+   ..${c1}*${c2}*****..                 *${c1}%${c2}/****.
+     .,,*******,${c3},,../##(${c2}%&${c1}&${c2}#******${c1},${c2}.
+        ,*${c1},${c2},,,,,,,,,,,,,,,,,,,${c1},${c2}..
+            *//${c1}/,,${c2},,,,,,,${c1},..${c2}
 EOF
         ;;
 
