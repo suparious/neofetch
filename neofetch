@@ -777,8 +777,8 @@ image_source="auto"
 #       Antergos, antiX, "AOSC OS", "AOSC OS/Retro", Apricity, ArchCraft,
 #       ArcoLinux, ArchBox, ARCHlabs, ArchStrike, XFerience, ArchMerge, Arch,
 #       Artix, Arya, Bedrock, Bitrig, BlackArch, BLAG, BlankOn, BlueLight,
-#       Bodhi, bonsai, BSD, BunsenLabs, Calculate, Carbs, CentOS, Chakra, ChaletOS,
-#       Chapeau, ChonkySealOS, Chrom*, Cleanjaro, ClearOS, Clear_Linux, Clover, Condres,
+#       Bodhi, bonsai, BSD, BunsenLabs, \"Cachy OS\", Calculate, Carbs, CentOS, Chakra, ChaletOS,
+#       Chapeau, Chrom*, Cleanjaro, ClearOS, Clear_Linux, Clover, Condres,
 #       Container_Linux, Crystal Linux, CRUX, Cucumber, dahlia, Debian, Deepin,
 #       DesaOS, Devuan, DracOS, DarkOs, Itc, DragonFly, Drauger, Elementary,
 #       EndeavourOS, EncryptOS, Endless, EuroLinux, Exherbo, Fedora, Feren, FreeBSD,
@@ -4983,8 +4983,8 @@ ASCII:
                                 instantOS, Antergos, antiX, \"AOSC OS\", \"AOSC OS/Retro\",
                                 Apricity, ArchCraft, ArcoLinux, ArchBox, ARCHlabs, ArchStrike,
                                 XFerience, ArchMerge, Arch, Artix, Arya, Bedrock, Bitrig,
-                                BlackArch, BLAG, BlankOn, BlueLight, Bodhi, bonsai, BSD, BunsenLabs,
-                                Calculate, Carbs, CentOS, Chakra, ChaletOS, Chapeau, ChonkySealOS, Chrom,
+                                BlackArch, BLAG, BlankOn, BlueLight, Bodhi, bonsai, BSD, BunsenLabs, \"Cachy OS\",
+                                Calculate, Carbs, CentOS, Chakra, ChaletOS, Chapeau, Chrom,
                                 Cleanjaro, ClearOS, Clear_Linux, Clover, Condres, Container_Linux,
                                 Crystal Linux, CRUX, Cucumber, dahlia, Debian, Deepin, DesaOS, Devuan,
                                 DracOS, DarkOs, Itc, DragonFly, Drauger, Elementary, EndeavourOS, Endless,
@@ -5380,41 +5380,15 @@ h//NNNNh  ossss` +h  md- .hm/ `sNNNNN:+y
 EOF
         ;;
 
-	"Aperio GNU/Linux"*)
-	    set_colors 255
-	    read -rd '' ascii_data <<'EOF'
+    "Aperio GNU/Linux"*)
+        set_colors 255
+        read -rd '' ascii_data <<'EOF'
 ${c2}
  _.._  _ ._.. _
 (_][_)(/,[  |(_)
    |   GNU/Linux
 EOF
-	;;
-	
-        "Asahi"*)
-            set_colors 3 2 1 8 7 6 4
-            read -rd '' ascii_data <<'EOF'
-${c1}                   ##  ${c2}**                 
-                ${c1}*####${c2}****.                
-                  ${c1}###${c2},                     
-               ${c3}...,${c1}/#${c3},,,..                
-          ${c3}/*,,,,,,,,${c1}*${c3},........${c4},,          
-        ${c3},((((((//*,,,,,,,,${c4},......         
-       ${c3}((((((((((((((${c5}%..${c4}..........       
-     ${c3},(((((((((((((((${c5}@@(${c4}............      
-    ${c3}(((((((((((((((((${c5}@@@@/${c4}............    
-  ${c3},((((((((((((((((((${c5}@@@@@&*${c4}...........   
- ${c3}((((((((((((((((((((${c5}@@@@@@@&${c4},........... 
-${c3}(((((((((((((((((((((${c5}@@@${c6}&%&${c5}@@@%${c4},..........
- ${c3}/(((((((((((((((((((${c5}@@@${c6}&%%&${c5}@@@@(${c4}........ 
-    ${c3},((((((((((((((((${c5}@@@${c6}&&${c5}@@&/&@@@/${c4}..     
-        ${c3}/((((((((((((${c5}@@@@@@/${c4}.../&&        
-           ${c3}.(((((((((${c5}@@@@(${c4}....            
-               ${c3}/(((((${c5}@@#${c4}...               
-                  ${c3}.((${c4}&,                   
-                   
-
-EOF
-        ;;
+    ;;
 
         "Hash"*)
             set_colors 123
@@ -6322,6 +6296,33 @@ ${c1}        `++
           +MN:
           mh.
          -/
+EOF
+        ;;
+    "Cachy OS"*)
+        set_colors 2 8 6
+        read -rd '' ascii_data <<'EOF'
+${c3}           ${c2}.${c3}-------------------------:
+${c3}          .${c1}+=${c3}========================.
+${c3}         :${c1}++${c3}===${c1}++===${c3}===============-       :${c1}++${c3}-
+${c3}        :${c1}*++${c3}====${c1}+++++==${c3}===========-        .==:
+${c3}       -${c1}*+++${c3}=====${c1}+***++=${c3}=========:
+${c3}      =${c1}*++++=${c3}=======------------:
+${c3}     =${c1}*+++++=${c3}====-                     ${c2}...${c3}
+${c3}   .${c1}+*+++++${c3}=-===:                    .${c1}=+++=${c3}:
+${c3}  :${c1}++++${c3}=====-==:                     -***${c1}**${c3}+
+${c3} :${c1}++=${c3}=======-=.                      .=+**+${c2}.${c3}
+${c3}.${c1}+${c3}==========-.                          ${c2}.${c3}
+${c3} :${c1}+++++++${c3}====-                                ${c2}.${c3}--==-${c2}.${c3}
+${c3}  :${c1}++${c3}==========.                             ${c2}:${c1}+++++++${c3}${c2}:
+${c3}   .-===========.                            =*****+*+
+${c3}    .-===========:                           .+*****+:
+${c3}      -=======${c1}++++${c3}:::::::::::::::::::::::::-:  ${c2}.${c3}---:
+${c3}       :======${c1}++++${c3}====${c1}+++******************=.
+${c3}        :=====${c1}+++${c3}==========${c1}++++++++++++++*-
+${c3}         .====${c1}++${c3}==============${c1}++++++++++*-
+${c3}          .===${c1}+${c3}==================${c1}+++++++:
+${c3}           .-=======================${c1}+++:
+${c3}             ${c2}..........................
 EOF
         ;;
 
