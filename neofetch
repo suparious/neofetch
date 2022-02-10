@@ -791,7 +791,7 @@ image_source="auto"
 #       Netrunner, Nitrux, NixOS, Nurunner, NuTyX, OBRevenge, OpenBSD,
 #       openEuler, OpenIndiana, openmamba, OpenMandriva, OpenStage, OpenWrt,
 #       osmc, Oracle, OS Elbrus, PacBSD, Parabola, Pardus, Parrot, Parsix,
-#       TrueOS, PCLinuxOS, Pengwin, Peppermint, Pisi, popos, Porteus, PostMarketOS,
+#       TrueOS, PCLinuxOS, pearOS, Pengwin, Peppermint, Pisi, popos, Porteus, PostMarketOS,
 #       Proxmox, PuffOS, Puppy, PureOS, Qubes, Qubyt, Quibian, Radix, Raspbian,
 #       RebornOS, Redstar, Redcore, Redhat, Refracted_Devuan, Regata, Regolith,
 #       Rocky, Rosa, sabotage, Sabayon, Sailfish, SalentOS, Scientific, Septor,
@@ -4998,8 +4998,8 @@ ASCII:
                                 NixOS, Nurunner, NuTyX, OBRevenge, OpenBSD, openEuler, OpenIndiana,
                                 openmamba, OpenMandriva, OpenStage, OpenWrt, osmc, Oracle,
                                 OS Elbrus, PacBSD, Parabola, Pardus, Parrot, Parsix, TrueOS,
-                                PCLinuxOS, Pengwin, Peppermint, Pisi, popos, Porteus, PostMarketOS,
-                                Proxmox, PuffOS, Puppy, PureOS, Qubes, Qubyt, Quibian, Radix, Raspbian, RebornOS,
+                                PCLinuxOS, pearOS, Pengwin, Peppermint, Pisi, popos, Porteus, PostMarketOS,
+                                Proxmox, PuffOS, Puppy, PureOS, Qubes, Qubyt, Quibian, Radix, Raspbian, Reborn_OS,
                                 Redstar, Redcore, Redhat, Refracted_Devuan, Regata, Regolith, Rosa,
                                 sabotage, Sabayon, Sailfish, SalentOS, ShastraOS Scientific, Septor,
                                 SereneLinux, SharkLinux, Siduction, Slackware, SliTaz, SmartOS,
@@ -9270,6 +9270,54 @@ yyhh-   ${c2}ymm-       /dmdyosyd`  ${c1}`yhh+
       dysyhhhso///://+syhhhssh
          dhyssyhhhhhhyssyyhN
               mddhdhdmN
+EOF
+        ;;
+
+                "pearOS"*)
+                    set_colors 2 3 1 1 5 4
+                    read -rd '' ascii_data <<'EOF'
+\e[0;32m                  .+yh
+                 sMMMo
+                sMMN+
+                +o:    \e[0m
+\e[93m           ./oyyys+.
+         :dMMMMMMMMMm/
+        :MMMMMMMMMMMMMy
+        yMMMMMMMMMMMMMN \e[0m
+\e[31m        mMMMMMMMMMMMMs`
+       yMMMMMMMMMMMMo
+     -mMMMMMMMMMMMMM`
+    oMMMMMMMMMMMMMMM` \e[0m
+\e[95m   oMMMMMMMMMMMMMMMMy
+  .MMMMMMMMMMMMMMMMMMy`
+  +MMMMMMMMMMMMMMMMMMMMy/`
+  /MMMMMMMMMMMMMMMMMMMMMMMNds \e[0m
+\e[34m  `mMMMMMMMMMMMMMMMMMMMMMMMM/
+   .mMMMMMMMMMMMMMMMMMMMMMM+
+    `oNMMMMMMMMMMMMMMMMMMd-
+      `+hMMMMMMMMMMMMMms-
+          -/osyhhyso:. \e[0m
+EOF
+                ;;
+
+        "Pengwin"*)
+            set_colors 5 5 13
+            read -rd '' ascii_data <<'EOF'
+${c3}                     ...`
+${c3}                     `-///:-`
+${c3}                       .+${c2}ssys${c3}/
+${c3}                        +${c2}yyyyy${c3}o    ${c2}
+${c2}                        -yyyyyy:
+${c2}           `.:/+ooo+/:` -yyyyyy+
+${c2}         `:oyyyyyys+:-.`syyyyyy:
+${c2}        .syyyyyyo-`   .oyyyyyyo
+${c2}       `syyyyyy   `-+yyyyyyy/`
+${c2}       /yyyyyy+ -/osyyyyyyo/.
+${c2}       +yyyyyy-  `.-:::-.`
+${c2}       .yyyyyy-
+${c3}        :${c2}yyyyy${c3}o
+${c3}         .+${c2}ooo${c3}+
+${c3}           `.::/:.
 EOF
         ;;
 
