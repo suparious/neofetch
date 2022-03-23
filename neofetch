@@ -773,14 +773,14 @@ image_source="auto"
 # Default: 'auto'
 # Values:  'auto', 'distro_name'
 # Flag:    --ascii_distro
-# NOTE: AIX, Alpine, Anarchy, Android, Antergos, antiX, "AOSC OS",
-#       "AOSC OS/Retro", Apricity, ArcoLinux, ArchBox, ARCHlabs,
-#       ArchStrike, XFerience, ArchMerge, Arch, Artix, Arya, Bedrock,
-#       Bitrig, BlackArch, BLAG, BlankOn, BlueLight, bonsai, BSD,
-#       BunsenLabs, Calculate, Carbs, CentOS, Chakra, ChaletOS,
-#       Chapeau, Chrom*, Cleanjaro, ClearOS, Clear_Linux, Clover,
-#       Condres, Container_Linux, CRUX, Cucumber, Debian, Deepin,
-#       DesaOS, Devuan, DracOS, DarkOs, DragonFly, Drauger, Elementary,
+# NOTE: AIX, Asahi, Hash, Alpine, AlterLinux, Amazon, Anarchy, Android, instantOS,
+#       Antergos, antiX, "AOSC OS", "AOSC OS/Retro", Apricity, ArchCraft,
+#       ArcoLinux, ArchBox, ARCHlabs, ArchStrike, XFerience, ArchMerge, Arch,
+#       Artix, Arya, Bedrock, Bitrig, BlackArch, BLAG, BlankOn, BlueLight,
+#       Bodhi, bonsai, BSD, BunsenLabs, Calculate, Carbs, CentOS, Chakra, ChaletOS,
+#       Chapeau, Chrom*, Cleanjaro, ClearOS, Clear_Linux, Clover, Condres,
+#       Container_Linux, Crystal Linux, CRUX, Cucumber, dahlia, Debian, Deepin,
+#       DesaOS, Devuan, DracOS, DarkOs, Itc, DragonFly, Drauger, Elementary,
 #       EndeavourOS, Endless, EuroLinux, Exherbo, Fedora, Feren, FreeBSD,
 #       FreeMiNT, Frugalware, Funtoo, GalliumOS, Garuda, Gentoo, Pentoo,
 #       gNewSense, GNOME, GNU, GoboLinux, Grombyang, Guix, Haiku, Huayra, HydroOS
@@ -4947,14 +4947,15 @@ ASCII:
     --ascii_colors x x x x x x  Colors to print the ascii art
     --ascii_distro distro       Which Distro's ascii art to print
 
-                                NOTE: AIX, Alpine, AlterLinux, Anarchy, Android, Antergos, antiX,
-                                \"AOSC OS\", \"AOSC OS/Retro\", Apricity, ArcoLinux, ArchBox,
-                                ARCHlabs, ArchStrike, XFerience, ArchMerge, Arch, Artix, Arya,
-                                Bedrock, Bitrig, BlackArch, BLAG, BlankOn, BlueLight, bonsai, BSD,
-                                BunsenLabs, Calculate, Carbs, CentOS, Chakra, ChaletOS, Chapeau,
-                                Chrom, Cleanjaro, ClearOS, Clear_Linux, Clover, Condres,
-                                Container_Linux, CRUX, Cucumber, Debian, Deepin, DesaOS, Devuan,
-                                DracOS, DarkOs, DragonFly, Drauger, Elementary, EndeavourOS, Endless,
+                                NOTE: AIX, Asahi, Hash, Alpine, AlterLinux, Amazon, Anarchy, Android,
+                                instantOS, Antergos, antiX, \"AOSC OS\", \"AOSC OS/Retro\",
+                                Apricity, ArchCraft, ArcoLinux, ArchBox, ARCHlabs, ArchStrike,
+                                XFerience, ArchMerge, Arch, Artix, Arya, Bedrock, Bitrig,
+                                BlackArch, BLAG, BlankOn, BlueLight, Bodhi, bonsai, BSD, BunsenLabs,
+                                Calculate, Carbs, CentOS, Chakra, ChaletOS, Chapeau, Chrom,
+                                Cleanjaro, ClearOS, Clear_Linux, Clover, Condres, Container_Linux,
+                                Crystal Linux, CRUX, Cucumber, dahlia, Debian, Deepin, DesaOS, Devuan,
+                                DracOS, DarkOs, Itc, DragonFly, Drauger, Elementary, EndeavourOS, Endless,
                                 EuroLinux, Exherbo, Fedora, Feren, FreeBSD, FreeMiNT, Frugalware,
                                 Funtoo, GalliumOS, Garuda, Gentoo, Pentoo, gNewSense, GNOME, GNU,
                                 GoboLinux, Grombyang, Guix, Haiku, Huayra, Hyperbola, janus, Kali,
@@ -5344,6 +5345,42 @@ h//NNNNh  ossss` +h  md- .hm/ `sNNNNN:+y
       :ys:/yNNNNNNNNNNNNNNNmy/:sy:
         .+ys///osyhhhhys+///sy+.
             -/osssossossso/-
+EOF
+        ;;
+
+	"Aperio GNU/Linux"*)
+	    set_colors 255
+	    read -rd '' ascii_data <<'EOF'
+${c2}
+ _.._  _ ._.. _
+(_][_)(/,[  |(_)
+   |   GNU/Linux
+EOF
+	;;
+	
+        "Asahi"*)
+            set_colors 3 2 1 8 7 6 4
+            read -rd '' ascii_data <<'EOF'
+${c1}                   ##  ${c2}**                 
+                ${c1}*####${c2}****.                
+                  ${c1}###${c2},                     
+               ${c3}...,${c1}/#${c3},,,..                
+          ${c3}/*,,,,,,,,${c1}*${c3},........${c4},,          
+        ${c3},((((((//*,,,,,,,,${c4},......         
+       ${c3}((((((((((((((${c5}%..${c4}..........       
+     ${c3},(((((((((((((((${c5}@@(${c4}............      
+    ${c3}(((((((((((((((((${c5}@@@@/${c4}............    
+  ${c3},((((((((((((((((((${c5}@@@@@&*${c4}...........   
+ ${c3}((((((((((((((((((((${c5}@@@@@@@&${c4},........... 
+${c3}(((((((((((((((((((((${c5}@@@${c6}&%&${c5}@@@%${c4},..........
+ ${c3}/(((((((((((((((((((${c5}@@@${c6}&%%&${c5}@@@@(${c4}........ 
+    ${c3},((((((((((((((((${c5}@@@${c6}&&${c5}@@&/&@@@/${c4}..     
+        ${c3}/((((((((((((${c5}@@@@@@/${c4}.../&&        
+           ${c3}.(((((((((${c5}@@@@(${c4}....            
+               ${c3}/(((((${c5}@@#${c4}...               
+                  ${c3}.((${c4}&,                   
+                   
+
 EOF
         ;;
 
