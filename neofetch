@@ -952,6 +952,7 @@ get_os() {
 }
 
 get_distro() {
+    
     [[ $distro ]] && return
 
     case $os in
@@ -6455,7 +6456,7 @@ EOF
         ;;
 
         "ChonkySealOS"*)
-            set_colors 8
+            set_colors 7
             read -rd '' ascii_data <<'EOF'
 ${c1}                  .-/-.
             .:-=++****++=-:.
