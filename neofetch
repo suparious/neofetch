@@ -6852,6 +6852,36 @@ ${c1}   ..,,;;;::;,..
    `'''`
 EOF
         ;;
+	
+	"DietPi"*)
+            set_colors 2 10 8
+            read -rd '' ascii_data <<'EOF'
+
+${c3}  'cdxkOxkkkxc'   :dkkxkkkxdc,
+  kO${c1}\\\\\\\\\\\\\\\\\\${c3}lO;;Ol${c1}/////////${c3}dO
+  xk${c1}\\\\\\${c3}';,${c1}\\\\\\\\\\${c3}00${c1}/////${c3},;'${c1}///${c3}ok
+  ,K${c1}\\\\\\\\\\\\${c3}'l,${c1}\\\\${c3}0N${c1}//${c3},l'${c1}//////${c3}0;
+   :0${c1}\\\\\\\\\\\\\\\\${c3}OKWWX0${c1}////////${c3}Ol
+    ,xk${c1}\\\\\\\\\\${c3}oNWWWWWk${c1}/////${c3}xx;
+     'dNNKXNWWWWWWWWWXKXNx'
+    ;KWWWWWWWWWWWWWWWWWWWWXc
+   'XWWWWWWWWWWWWWWWWWWWWWWN,
+   lWNNNNNNNNNNNNNNNNNNNNNNWl
+  lKNNNNNNNNNXXXXXXNNNNNNNNNXo
+ dNNNXXNNNNNNXXXXXXNNNNNNXXNNNk
+${c3},NNNX${c1}c',${c3}lx0XXXXKKXXXX0dc${c1},'c${c3}XNNN
+${c3},NNNXo${c1}'....,${c3}cx0KK0dc${c1},....'${c3}dXNNN
+${c3} dNNNXkc${c1}:;'',${c3}oKXX0l${c1},'';:${c3}cOXNNNk
+  dNNNXXXXKKXN${c1},${c3}KX${c1},${c3}NXKKXXXXNNNk
+  'KNNNNNNXNN${c1};c${c3}dl${c1}c;${c3}NNXNNNNNNN,
+   oNNNNNNNXXXO000XXXNNNNNNNx
+    xNNNNNNNNNNNNNNNNNNNNNNO'
+      xXNNNNNNNNNNNNNNNNXk
+        ckXNNNNNNNNNNXOl'
+           :ONNNNNN0:
+             ;dOOd;
+EOF
+        ;;
 
         "DracOS"*)
             set_colors 1 7 3
