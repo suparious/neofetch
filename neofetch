@@ -3228,6 +3228,7 @@ get_term() {
             ;;
 
             "gnome-terminal-") term="gnome-terminal" ;;
+            "kgx")             term="gnome-console" ;;
             "urxvtd")          term="urxvt" ;;
             *"nvim")           term="Neovim Terminal" ;;
             *"NeoVimServer"*)  term="VimR Terminal" ;;
