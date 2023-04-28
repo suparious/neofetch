@@ -10396,6 +10396,34 @@ dKK${c1}KKKKKKKKKK;.;oOKx,..${c2}^${c1}..;kKKK0.${c2}  dKd
             '^:ldxkkkkxdl:^'
 EOF
         ;;
+        "parch"* | "Parch"* | "PARCH"*)
+            set_colors 4 6
+            read -rd '' ascii_data <<'EOF'                                                                     
+                                                                                
+                                                                                
+‌		  ‌+s;;:o-
+              s/sssso+/-'+\
+           +/ssssss/`
+         /ssssssss/
+       \ 'sssssss:
+      `o+;ssssssso\
+     /sssssssssssss\+
+    ;ssssssssssssssss:
+   :sssssssssssssssssso;
+   /ssssssssssssssssssssss
+  `+ssssssssssssssssssssso\
+   so+'+ssssssssssssssss+'`
+   '` +osssssoooooosssss++oo\
+     /sssssssooooooosssssssso
+    `osssssssssoooossssssssso:
+      \sssssssssssssssssssss;
+       `+osssssssssssssss:/'
+         `\osssssssssso;+'
+             `\+;so:+-`      
+                                                                                
+                                                                                                                
+EOF
+        ;;
 
         "SwagArch"*)
             set_colors 4 7 1
