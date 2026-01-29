@@ -3,9 +3,19 @@
 
 <p align="center">
 <a href="./LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
-<a href="https://github.com/dylanaraps/neofetch/releases"><img src="https://img.shields.io/github/release/dylanaraps/neofetch.svg"></a>
+<a href="https://github.com/Suparious/neofetch/releases"><img src="https://img.shields.io/github/release/Suparious/neofetch.svg"></a>
 <a href="https://repology.org/metapackage/neofetch"><img src="https://repology.org/badge/tiny-repos/neofetch.svg" alt="Packaging status"></a>
 </p>
+
+---
+
+> **This is an actively maintained fork of [dylanaraps/neofetch](https://github.com/dylanaraps/neofetch).**
+>
+> The original repository was archived in April 2024. This fork aims to continue development, accept contributions, and keep neofetch alive for the community.
+>
+> *Thank you, Dylan, for creating this beloved tool.*
+
+---
 
 <img src="https://i.imgur.com/GFmC5Ad.png" alt="neofetch" align="right" height="240px">
 
@@ -22,4 +32,45 @@ You can further configure Neofetch to display exactly what you want it to. Throu
 Neofetch supports almost 150 different operating systems. From Linux to Windows, all the way to more obscure operating systems like Minix, AIX and Haiku. If your favourite operating system is unsupported: Open up an issue and support will be added.
 
 
-### More: \[[Dependencies](https://github.com/dylanaraps/neofetch/wiki/Dependencies)\] \[[Installation](https://github.com/dylanaraps/neofetch/wiki/Installation)\] \[[Wiki](https://github.com/dylanaraps/neofetch/wiki)\]
+### More: \[[Dependencies](https://github.com/Suparious/neofetch/wiki/Dependencies)\] \[[Installation](https://github.com/Suparious/neofetch/wiki/Installation)\] \[[Wiki](https://github.com/Suparious/neofetch/wiki)\]
+
+## Installation
+
+### From this fork
+
+```bash
+# Clone the repository
+git clone https://github.com/Suparious/neofetch.git
+cd neofetch
+
+# Install (requires root/sudo)
+sudo make install
+
+# Or install to a custom prefix
+make PREFIX=~/.local install
+```
+
+### Package managers
+
+Many package managers still have neofetch available. Check your distribution's repositories first.
+
+## Contributing
+
+Contributions are welcome! This fork is open to:
+
+- Bug fixes
+- New OS/distro support
+- Feature improvements
+- Documentation updates
+
+Please open an issue first to discuss major changes.
+
+## Acknowledgments
+
+- **[Dylan Araps](https://github.com/dylanaraps)** - Original creator of neofetch and many other beloved projects
+- All the contributors to the original project
+- The community that made neofetch one of the most recognized CLI tools
+
+## License
+
+MIT License - see [LICENSE.md](LICENSE.md)
