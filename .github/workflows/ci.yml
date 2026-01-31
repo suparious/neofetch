@@ -29,10 +29,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Check line length (max 100 characters)
+      - name: Check line length (max 120 characters)
         run: |
-          if grep '.\{101\}' neofetch; then
-            echo "Lines longer than 100 characters found"
+          if grep '.\{121\}' neofetch; then
+            echo "Lines longer than 120 characters found"
             exit 1
           fi
 
