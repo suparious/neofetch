@@ -1165,7 +1165,11 @@ get_distro() {
                 10.14*) codename="macOS Mojave" ;;
                 10.15*) codename="macOS Catalina" ;;
                 10.16*) codename="macOS Big Sur" ;;
-                11.0*)  codename="macOS Big Sur" ;;
+                11.*)   codename="macOS Big Sur" ;;
+                12.*)   codename="macOS Monterey" ;;
+                13.*)   codename="macOS Ventura" ;;
+                14.*)   codename="macOS Sonoma" ;;
+                15.*)   codename="macOS Sequoia" ;;
                 *)      codename=macOS ;;
             esac
 
@@ -1178,7 +1182,7 @@ get_distro() {
                     case $osx_version in
                         10.[4-7]*)            distro=${distro/${codename}/Mac OS X} ;;
                         10.[8-9]*|10.1[0-1]*) distro=${distro/${codename}/OS X} ;;
-                        10.1[2-6]*|11.0*)     distro=${distro/${codename}/macOS} ;;
+                        10.1[2-6]*|1[1-5].*)  distro=${distro/${codename}/macOS} ;;
                     esac
                     distro=${distro/ ${osx_build}}
                 ;;
