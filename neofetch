@@ -3026,10 +3026,11 @@ get_resolution() {
                 resolution="$(xdpyinfo | awk '/dimensions:/ {printf $2}')"
 
             elif [[ -d /sys/class/drm ]]; then
-                for dev in /sys/class/drm/*/modes; do
-                    read -r resolution _ < "$dev"
+                for dev in /sys/class/drm/*; do
+                    [[ -f "$dev/enabled" && $(<"$dev/enabled") != "enabled" ]] && continue
 
-                    [[ $resolution ]] && break
+                    read -r single_resolution _ < "$dev/modes" 2>/dev/null
+                    [[ $single_resolution ]] && resolution="${single_resolution}, ${resolution}"
                 done
             fi
         ;;
