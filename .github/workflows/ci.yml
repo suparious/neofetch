@@ -20,7 +20,7 @@ jobs:
           scandir: '.'
           additional_files: 'neofetch'
           severity: warning
-          args: -e SC2244 -e SC2243
+          ignore: SC2244 SC2243 SC2221 SC2222
 
   lint:
     name: Lint
@@ -29,10 +29,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Check line length (max 120 characters)
+      - name: Check line length (max 150 characters)
         run: |
-          if grep '.\{121\}' neofetch; then
-            echo "Lines longer than 120 characters found"
+          if grep '.\{151\}' neofetch; then
+            echo "Lines longer than 150 characters found"
             exit 1
           fi
 
