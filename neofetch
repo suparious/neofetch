@@ -1086,7 +1086,8 @@ get_distro() {
 
             else
                 for release_file in /etc/*-release; do
-                    distro+=$(< "$release_file")
+                    distro=$(< "$release_file")
+                    break
                 done
 
                 if [[ -z $distro ]]; then
@@ -3678,6 +3679,7 @@ get_battery() {
             # We use 'prin' here so that we can do multi battery support
             # with a single battery per line.
             for bat in "/sys/class/power_supply/"{BAT,axp288_fuel_gauge,CMB}*; do
+                [[ -f ${bat}/capacity && -f ${bat}/status ]] || continue
                 capacity="$(< "${bat}/capacity")"
                 status="$(< "${bat}/status")"
 
@@ -3823,8 +3825,7 @@ get_gpu_driver() {
             gpu_driver="${gpu_driver%, }"
 
             if [[ "$gpu_driver" == *"nvidia"* ]]; then
-                gpu_driver="$(< /proc/driver/nvidia/version)"
-                gpu_driver="${gpu_driver/*Module  }"
+                gpu_driver="$(< /sys/module/nvidia/version)"
                 gpu_driver="NVIDIA ${gpu_driver/  *}"
             fi
         ;;
