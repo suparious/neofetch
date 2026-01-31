@@ -5,6 +5,7 @@ CLAUDE.md
 .claude/
 .mcp.json
 
-# Triage tracking (local only)
+# Fork maintenance tracking (local only)
 triaged-issues.json
+upstream-prs.json
 
