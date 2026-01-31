@@ -36,7 +36,14 @@ Neofetch supports almost 150 different operating systems. From Linux to Windows,
 
 ## Installation
 
-### From this fork
+### Homebrew (macOS/Linux)
+
+```bash
+brew tap suparious/suparious
+brew install neofetch
+```
+
+### From source
 
 ```bash
 # Clone the repository
@@ -52,7 +59,7 @@ make PREFIX=~/.local install
 
 ### Package managers
 
-Many package managers still have neofetch available. Check your distribution's repositories first.
+Many package managers still have neofetch available, though they may have older versions. For the latest updates from this fork, use the Homebrew tap or install from source.
 
 ## Contributing
 

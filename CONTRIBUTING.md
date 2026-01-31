@@ -34,8 +34,8 @@ ShellCheck.
 shellcheck neofetch
 ```
 
-**Note**: If you have trouble installing ShellCheck. You can open a pull
-request on the repo and our Travis.ci hook will run ShellCheck for you.
+**Note**: If you have trouble installing ShellCheck locally, you can open a pull
+request on the repo and our GitHub Actions CI will run ShellCheck for you.
 
 
 ### No no's
