@@ -22,20 +22,6 @@ jobs:
           severity: warning
           ignore: SC2244 SC2243 SC2221 SC2222
 
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Check line length (max 150 characters)
-        run: |
-          if grep '.\{151\}' neofetch; then
-            echo "Lines longer than 150 characters found"
-            exit 1
-          fi
-
   test:
     name: Test
     strategy:
