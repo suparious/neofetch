@@ -11161,7 +11161,7 @@ ${c1}   :::::::          :::::::
 EOF
         ;;
 
-        "Vanilla"* | "VanillaOS"*)
+        "VanillaOS"*)
             set_colors 3 7
             read -rd '' ascii_data <<'EOF'
 ${c1}                          ==.

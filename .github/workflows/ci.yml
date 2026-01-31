@@ -19,8 +19,7 @@ jobs:
         with:
           scandir: '.'
           additional_files: 'neofetch'
-          severity: warning
-          ignore: SC2244 SC2243 SC2221 SC2222
+          severity: error
 
   test:
     name: Test
