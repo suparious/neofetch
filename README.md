@@ -61,6 +61,33 @@ make PREFIX=~/.local install
 
 Many package managers still have neofetch available, though they may have older versions. For the latest updates from this fork, use the Homebrew tap or install from source.
 
+## Upgrading
+
+### Check your current version
+
+```bash
+neofetch --version
+```
+
+### Homebrew
+
+```bash
+# Update the tap and upgrade
+brew update
+brew upgrade neofetch
+
+# Or install the latest from git (bleeding edge)
+brew reinstall --HEAD neofetch
+```
+
+### From source
+
+```bash
+cd neofetch
+git pull
+sudo make install
+```
+
 ## Contributing
 
 Contributions are welcome! This fork is open to:
