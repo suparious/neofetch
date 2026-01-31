@@ -1154,8 +1154,11 @@ get_distro() {
                 10.14*) codename="macOS Mojave" ;;
                 10.15*) codename="macOS Catalina" ;;
                 10.16*) codename="macOS Big Sur" ;;
-                11.*)  codename="macOS Big Sur" ;;
-                12.*)  codename="macOS Monterey" ;;
+                11.*)   codename="macOS Big Sur" ;;
+                12.*)   codename="macOS Monterey" ;;
+                13.*)   codename="macOS Ventura" ;;
+                14.*)   codename="macOS Sonoma" ;;
+                15.*)   codename="macOS Sequoia" ;;
                 *)      codename=macOS ;;
             esac
 
@@ -1900,9 +1903,9 @@ get_wm() {
     esac
 
     if [[ -O "${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY:-wayland-0}" ]]; then
-        if tmp_pid="$(lsof -t "${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY:-wayland-0}" 2>&1)" ||
-           tmp_pid="$(fuser   "${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY:-wayland-0}" 2>&1)"; then
-            wm="$(ps -p "${tmp_pid}" -ho comm=)"
+        if tmp_pid="$(lsof -t "${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY:-wayland-0}" 2>/dev/null)" ||
+           tmp_pid="$(fuser   "${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY:-wayland-0}" 2>/dev/null)"; then
+            wm="$(ps -p ${tmp_pid} -ho comm=)"
         else
             # lsof may not exist, or may need root on some systems. Similarly fuser.
             # On those systems we search for a list of known window managers, this can mistakenly
@@ -2207,6 +2210,10 @@ get_cpu() {
                     [[ -z "$cpu" ]] && cpu="$(awk -F':' '/family/ {printf $2; exit}' "$cpu_file")"
                 ;;
 
+                "loongarch"*)
+                    cpu="$(awk -F':' '/Model Name/ {print $2; exit}' "$cpu_file")"
+                ;;
+
                 *)
                     cpu="$(awk -F '\\s*: | @' \
                             '/model name|Hardware|Processor|^cpu model|chip type|^cpu type/ {
@@ -2332,7 +2339,7 @@ get_cpu() {
 
         "BSD")
             # Get CPU name.
-            cpu="$(sysctl -n hw.model)"
+            cpu="$(sysctl -n machdep.cpu_brand 2>/dev/null || sysctl -n hw.model)"
             cpu="${cpu/[0-9]\.*}"
             cpu="${cpu/ @*}"
 
