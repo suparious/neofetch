@@ -659,7 +659,7 @@ block_width=3
 # Flag:     --block_height
 block_height=1
 
-# Color Alignment
+# Column Alignment
 #
 # Default: 'auto'
 # Values: 'auto', 'num'
@@ -1584,7 +1584,7 @@ get_packages() {
             has pkginfo && tot pkginfo -i
 
             case $kernel_name in
-                FreeBSD|DragonFly) has pkg && tot pkg info ;;
+                FreeBSD|DragonFly) has pkg && tot pkg info </dev/null ;;
 
                 *)
                     has pkg && dir /var/db/pkg/*
@@ -1598,6 +1598,7 @@ get_packages() {
             has flatpak && tot flatpak list
             has spm     && tot spm list -i
             has puyo    && dir ~/.puyo/installed
+            has cargo   && dir ~/.cargo/bin/*
 
             # Snap hangs if the command is run without the daemon running.
             # Only run snap if the daemon is also running.
@@ -1605,7 +1606,7 @@ get_packages() {
 
             # This is the only standard location for appimages.
             # See: https://github.com/AppImage/AppImageKit/wiki
-            manager=appimage && has appimaged && dir ~/.local/bin/*.appimage
+            manager=appimage && has appimaged && dir ~/.local/bin/*.[Aa]pp[Ii]mage
         ;;
 
         "Mac OS X"|"macOS"|MINIX)
@@ -3266,6 +3267,10 @@ get_term() {
         esac
     done
 
+    # Termux sets TERMUX_VERSION. Put this after the PPID check because this is
+    # also set if using a terminal on an X server.
+    [[ -z "$term" && "$TERMUX_VERSION" ]] && term="Termux ${TERMUX_VERSION}"
+
     # Log that the function was run.
     term_run=1
 }
@@ -3289,7 +3294,8 @@ get_term_font() {
 
         "Apple_Terminal")
             term_font="$(osascript <<END
-                         tell application "Terminal" to font name of window frontmost
+                         tell application "Terminal" to font name of window frontmost \
+                         & " " & font size of window frontmost
 END
 )"
         ;;
@@ -4854,7 +4860,7 @@ INFO:
                                 NOTE: You can supply multiple args. eg. 'neofetch --disable cpu gpu'
 
     --title_fqdn on/off         Hide/Show Fully Qualified Domain Name in title.
-    --package_managers on/off   Hide/Show Package Manager names . (on, tiny, off)
+    --package_managers on/off   Hide/Show Package Manager names. (on, tiny, off)
     --os_arch on/off            Hide/Show OS architecture.
     --speed_type type           Change the type of cpu speed to display.
                                 Possible values: current, min, max, bios,
