@@ -1103,13 +1103,13 @@ get_distro() {
             fi
 
             if [[ $(< /proc/version) == *Microsoft* || $kernel_version == *Microsoft* ]]; then
-                windows_version=$(wmic.exe os get Version)
-                windows_version=$(trim "${windows_version/Version}")
+                windows_caption="$(powershell.exe -NoProfile -c 'wmic os get Caption' 2>/dev/null | sed -n '2p' | tr -d '\r')"
+                windows_caption="${windows_caption:-Windows}"
 
                 case $distro_shorthand in
-                    on)   distro+=" [Windows $windows_version]" ;;
-                    tiny) distro="Windows ${windows_version::2}" ;;
-                    *)    distro+=" on Windows $windows_version" ;;
+                    on)   distro+=" [$windows_caption]" ;;
+                    tiny) distro="$windows_caption" ;;
+                    *)    distro+=" on $windows_caption" ;;
                 esac
 
             elif [[ $(< /proc/version) == *chrome-bot* || -f /dev/cros_ec ]]; then
@@ -1781,6 +1781,10 @@ get_de() {
 
         Windows)
             case $distro in
+                *"Windows 11"*)
+                    de=Fluent
+                ;;
+
                 *"Windows 10"*)
                     de=Fluent
                 ;;
