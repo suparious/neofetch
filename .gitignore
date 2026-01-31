@@ -5,3 +5,6 @@ CLAUDE.md
 .claude/
 .mcp.json
 
+# Triage tracking (local only)
+triaged-issues.json
+
