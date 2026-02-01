@@ -1507,11 +1507,73 @@ get_uptime() {
 }
 
 get_packages() {
+    # Pre-scan PATH for possible package managers to speed up detection.
+    # This avoids slow 'type' calls for every package manager on systems
+    # like WSL where failed type calls are expensive (~0.1s each).
+    case $os in
+        Linux|BSD|"iPhone OS"|Solaris)
+            manager_candidates=(
+                kiss cpt pacman dpkg xbps apk opkg pacman-g2
+                lvu tce pkg_info tazpkg sorcery alps butch
+                swupd pisi dnf rpm mine brew emerge
+                Compile eopkg crew pkgtool scratch kagami cave
+                kpm-pkg guix nix-store pkginfo pkg flatpak
+                spm puyo snap appimaged cargo
+            )
+            ;;
+        "Mac OS X"|"macOS"|MINIX)
+            manager_candidates=(
+                port brew pkgin dpkg nix-store
+            )
+            ;;
+        AIX|FreeMiNT)
+            manager_candidates=(
+                lslpp rpm
+            )
+            ;;
+        Windows)
+            manager_candidates=(
+                cygcheck pacman scoop
+            )
+            ;;
+        Haiku)
+            manager_candidates=(
+                pkgman
+            )
+            ;;
+        *)
+            manager_candidates=()
+            ;;
+    esac
+
+    # Build regex pattern and scan PATH once for all possible managers
+    if ((${#manager_candidates[@]} > 0)); then
+        manager_pattern=$(printf '/%s$|' "${manager_candidates[@]}")
+        manager_pattern=${manager_pattern%"|"}
+
+        # Find all matching executables in PATH directories at once
+        OLD_PATH=$PATH
+        PATH+=:EOF  # hack to list last PATH dir
+        # shellcheck disable=SC2086
+        manager_hits=($(printf '%s\n' ${PATH//:/\/* } 2>/dev/null | grep -Eo "$manager_pattern" 2>/dev/null))
+        PATH=$OLD_PATH
+    fi
+
     # has: Check if package manager installed.
     # dir: Count files or dirs in a glob.
     # pac: If packages > 0, log package manager name.
     # tot: Count lines in command output.
-    has() { type -p "$1" >/dev/null && manager=$1; }
+    has() {
+        # If we have pre-scanned PATH, check if command is in the hit list first
+        if ((${#manager_hits[@]} > 0)); then
+            if printf '%s\n' "${manager_hits[@]}" | grep -qE "/$1$"; then
+                type -p "$1" >/dev/null && { manager=$1; return 0; }
+            fi
+            return 1
+        fi
+        # Fallback to original behavior if pre-scanning wasn't done
+        type -p "$1" >/dev/null && manager=$1
+    }
     dir() { ((packages+=$#)); pac "$#"; }
     pac() { (($1 > 0)) && { managers+=("$1 (${manager})"); manager_string+="${manager}, "; }; }
     tot() { IFS=$'\n' read -d "" -ra pkgs <<< "$("$@")";((packages+=${#pkgs[@]}));pac "${#pkgs[@]}";}
@@ -1854,22 +1916,32 @@ get_wm() {
             wm=$(ps "${ps_flags[@]}" | grep -m 1 -o -F \
                                -e arcan \
                                -e asc \
+                               -e cage \
+                               -e cagebreak \
                                -e clayland \
+                               -e cosmic-comp \
                                -e dwc \
+                               -e dwl \
                                -e fireplace \
+                               -e gamescope \
                                -e gnome-shell \
                                -e greenfield \
                                -e grefsen \
                                -e hikari \
                                -e Hyprland \
+                               -e hyprland \
                                -e kwin \
+                               -e labwc \
                                -e lipstick \
                                -e maynard \
                                -e mazecompositor \
                                -e motorcar \
+                               -e mutter \
+                               -e niri \
                                -e orbital \
                                -e orbment \
                                -e perceptia \
+                               -e phoc \
                                -e river \
                                -e rustland \
                                -e sway \
@@ -3000,7 +3072,54 @@ get_resolution() {
         ;;
 
         *)
-            if type -p xrandr >/dev/null && [[ $DISPLAY && -z $WAYLAND_DISPLAY ]]; then
+            # Wayland-native resolution detection (when WAYLAND_DISPLAY is set)
+            if [[ $WAYLAND_DISPLAY ]]; then
+                # wlr-randr: Works with wlroots compositors (Sway, Hyprland, river, etc.)
+                if type -p wlr-randr >/dev/null; then
+                    case $refresh_rate in
+                        "on")
+                            resolution="$(wlr-randr 2>/dev/null | awk '
+                                /current/ {
+                                    split($1, res, "x")
+                                    split($3, hz, " ")
+                                    gsub(/,/, "", hz[1])
+                                    printf res[1] "x" res[2] " @ " hz[1] "Hz, "
+                                }')"
+                        ;;
+                        "off")
+                            resolution="$(wlr-randr 2>/dev/null | awk '
+                                /current/ {
+                                    split($1, res, "x")
+                                    printf res[1] "x" res[2] ", "
+                                }')"
+                        ;;
+                    esac
+
+                # kscreen-doctor: Works with KDE Plasma Wayland
+                elif type -p kscreen-doctor >/dev/null; then
+                    resolution="$(kscreen-doctor -o 2>/dev/null | awk -F'[@x]' '
+                        /Modes:.*\*/ {
+                            for (i=1; i<=NF; i++) {
+                                if ($i ~ /\*/) {
+                                    gsub(/[^0-9]/, "", $(i-2))
+                                    gsub(/[^0-9]/, "", $(i-1))
+                                    printf $(i-2) "x" $(i-1) ", "
+                                }
+                            }
+                        }')"
+
+                # wayland-info: Generic fallback for Wayland compositors
+                elif type -p wayland-info >/dev/null; then
+                    resolution="$(wayland-info 2>/dev/null | awk '
+                        /current:/ && /x/ {
+                            gsub(/[^0-9x]/, "", $NF)
+                            if ($NF ~ /^[0-9]+x[0-9]+$/) printf $NF ", "
+                        }')"
+                fi
+            fi
+
+            # X11 resolution detection (when DISPLAY is set and not pure Wayland)
+            if [[ -z $resolution ]] && type -p xrandr >/dev/null && [[ $DISPLAY && -z $WAYLAND_DISPLAY ]]; then
                 case $refresh_rate in
                     "on")
                         resolution="$(xrandr --nograb --current |\
@@ -3019,15 +3138,17 @@ get_resolution() {
                 esac
                 resolution="${resolution//\*}"
 
-            elif type -p xwininfo >/dev/null && [[ $DISPLAY && -z $WAYLAND_DISPLAY ]]; then
+            elif [[ -z $resolution ]] && type -p xwininfo >/dev/null && [[ $DISPLAY && -z $WAYLAND_DISPLAY ]]; then
                 read -r w h \
                     <<< "$(xwininfo -root | awk -F':' '/Width|Height/ {printf $2}')"
                 resolution="${w}x${h}"
 
-            elif type -p xdpyinfo >/dev/null && [[ $DISPLAY && -z $WAYLAND_DISPLAY ]]; then
+            elif [[ -z $resolution ]] && type -p xdpyinfo >/dev/null && [[ $DISPLAY && -z $WAYLAND_DISPLAY ]]; then
                 resolution="$(xdpyinfo | awk '/dimensions:/ {printf $2}')"
+            fi
 
-            elif [[ -d /sys/class/drm ]]; then
+            # DRM fallback for both X11 and Wayland when other methods fail
+            if [[ -z $resolution && -d /sys/class/drm ]]; then
                 for dev in /sys/class/drm/*; do
                     [[ -f "$dev/enabled" && $(<"$dev/enabled") != "enabled" ]] && continue
 
@@ -4133,14 +4254,12 @@ get_window_size() {
     # The escape codes above print the desired output as
     # user input so we have to use read to store the out
     # -put as a variable.
-    # The 1 second timeout is required for older bash
+    # The 3 second timeout is required for slow/remote
+    # sessions.
     #
     # False positive.
     # shellcheck disable=2141
-    case $bash_version in
-        4|5) IFS=';t' read -d t -t 0.05 -sra term_size ;;
-        *)   IFS=';t' read -d t -t 1 -sra term_size ;;
-    esac
+    IFS=';t' read -d t -t 3 -sra term_size
     unset IFS
 
     # Split the string into height/width.
