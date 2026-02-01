@@ -1183,9 +1183,7 @@ get_distro() {
                     *"budgie"*)   distro=${distro/Ubuntu/Ubuntu Budgie} ;;
                     *"cinnamon"*) distro=${distro/Ubuntu/Ubuntu Cinnamon} ;;
                 esac
-                if [[ -f /etc/floflis-release ]]; then
-                    distro="Floflis"
-                fi
+                [[ -f /etc/floflis-release ]] && distro="Floflis"
             fi
         ;;
 
@@ -1592,8 +1590,11 @@ get_packages() {
         # Find all matching executables in PATH directories at once
         OLD_PATH=$PATH
         PATH+=:EOF  # hack to list last PATH dir
+        manager_hits=()
         # shellcheck disable=SC2086
-        manager_hits=($(printf '%s\n' ${PATH//:/\/* } 2>/dev/null | grep -Eo "$manager_pattern" 2>/dev/null))
+        while IFS= read -r hit; do
+            manager_hits+=("$hit")
+        done < <(printf '%s\n' ${PATH//:/\/* } 2>/dev/null | grep -Eo "$manager_pattern" 2>/dev/null)
         PATH=$OLD_PATH
     fi
 
@@ -1946,7 +1947,7 @@ get_wm() {
     if [[ -O "${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY:-wayland-0}" ]]; then
         if tmp_pid="$(lsof -t "${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY:-wayland-0}" 2>/dev/null)" ||
            tmp_pid="$(fuser   "${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY:-wayland-0}" 2>/dev/null)"; then
-            wm="$(ps -p ${tmp_pid} -ho comm=)"
+            wm="$(ps -p "${tmp_pid}" -ho comm=)"
         else
             # lsof may not exist, or may need root on some systems. Similarly fuser.
             # On those systems we search for a list of known window managers, this can mistakenly
@@ -4839,7 +4840,8 @@ get_full_path() {
     done
 
     # Final directory.
-    local full_dir="$(pwd -P)/$file_name"
+    local full_dir
+    full_dir="$(pwd -P)/$file_name"
 
     [[ -e "$full_dir" ]] && printf '%s\n' "$full_dir"
 }
