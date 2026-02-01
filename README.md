@@ -99,6 +99,29 @@ Contributions are welcome! This fork is open to:
 
 Please open an issue first to discuss major changes.
 
+## Integration with HyFetch
+
+This fork is fully compatible with [HyFetch](https://github.com/hykilpikonna/hyfetch), a tool that adds colorful pride flag themes to your neofetch output.
+
+### Quick Setup
+
+```bash
+pip install hyfetch
+hyfetch  # Uses neofetch as the backend
+```
+
+HyFetch wraps neofetch and applies color themes while preserving all functionality. Your neofetch configuration and custom ASCII art will continue to work.
+
+### How It Works
+
+HyFetch supports multiple backends (neofetch, fastfetch, macchina). When you run `hyfetch`, it:
+1. Calls neofetch with your configuration
+2. Captures the output
+3. Applies pride flag color gradients
+4. Displays the themed result
+
+Configuration is stored in `~/.config/hyfetch.json`. HyFetch also provides lightness adjustment for different terminal themes.
+
 ## Acknowledgments
 
 - **[Dylan Araps](https://github.com/dylanaraps)** - Original creator of neofetch and many other beloved projects
