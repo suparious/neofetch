@@ -183,6 +183,19 @@ memory_percent="off"
 # gib: ' 0.98GiB / 6.79GiB'
 memory_unit="mib"
 
+# Memory precision
+#
+# Decimal places for memory values.
+#
+# Default: '0'
+# Values:  '0', '1', '2', '3'
+# Flag:    --memory_precision
+#
+# Example:
+# 0:  '1042MiB / 6951MiB'
+# 2:  '1042.50MiB / 6951.00MiB'
+memory_precision="0"
+
 
 # Packages
 
@@ -2787,10 +2800,18 @@ get_memory() {
 
     [[ "$memory_percent" == "on" ]] && ((mem_perc=mem_used * 100 / mem_total))
 
+    # Format memory values with configurable precision
+    mem_precision=${memory_precision:-0}
+
     case $memory_unit in
         gib)
-            mem_used=$(awk '{printf "%.2f", $1 / $2}' <<< "$mem_used 1024")
-            mem_total=$(awk '{printf "%.2f", $1 / $2}' <<< "$mem_total 1024")
+            if ((mem_precision > 0)); then
+                mem_used=$(awk -v p="$mem_precision" '{printf "%." p "f", $1 / 1024}' <<< "$mem_used")
+                mem_total=$(awk -v p="$mem_precision" '{printf "%." p "f", $1 / 1024}' <<< "$mem_total")
+            else
+                mem_used=$(awk '{printf "%.0f", $1 / 1024}' <<< "$mem_used")
+                mem_total=$(awk '{printf "%.0f", $1 / 1024}' <<< "$mem_total")
+            fi
             mem_label=GiB
         ;;
 
@@ -2799,9 +2820,18 @@ get_memory() {
             mem_total=$((mem_total * 1024))
             mem_label=KiB
         ;;
+
+        *)
+            # Default: MiB
+            if ((mem_precision > 0)); then
+                mem_used=$(awk -v p="$mem_precision" '{printf "%." p "f", $1}' <<< "$mem_used")
+                mem_total=$(awk -v p="$mem_precision" '{printf "%." p "f", $1}' <<< "$mem_total")
+            fi
+            mem_label=MiB
+        ;;
     esac
 
-    memory="${mem_used}${mem_label:-MiB} / ${mem_total}${mem_label:-MiB} ${mem_perc:+(${mem_perc}%)}"
+    memory="${mem_used}${mem_label} / ${mem_total}${mem_label} ${mem_perc:+(${mem_perc}%)}"
 
     # Bars.
     case $memory_display in
@@ -5052,6 +5082,7 @@ INFO:
     --song_shorthand on/off     Print the Artist/Album/Title on separate lines.
     --memory_percent on/off     Display memory percentage.
     --memory_unit kib/mib/gib   Memory output unit.
+    --memory_precision 0-3      Decimal places for memory values.
     --music_player player-name  Manually specify a player to use.
                                 Available values are listed in the config file
 
@@ -5248,6 +5279,7 @@ get_args() {
             "--music_player") music_player="$2" ;;
             "--memory_percent") memory_percent="$2" ;;
             "--memory_unit") memory_unit="$2" ;;
+            "--memory_precision") memory_precision="$2" ;;
             "--cpu_temp")
                 cpu_temp="$2"
                 [[ "$cpu_temp" == "on" ]] && cpu_temp="C"
