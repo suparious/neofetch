@@ -176,7 +176,7 @@ memory_percent="off"
 # Change memory output unit.
 #
 # Default: 'mib'
-# Values:  'kib', 'mib', 'gib'
+# Values:  'kib', 'mib', 'gib', 'tib'
 # Flag:    --memory_unit
 #
 # Example:
@@ -198,6 +198,12 @@ memory_unit="mib"
 # 2:  '1042.50MiB / 6951.00MiB'
 memory_precision="0"
 
+# Change memory output precision.
+#
+# Default: '2'
+# Values: integer ≥ 0
+# Flag:    --memory_precision
+mem_precision=2
 
 # Packages
 
@@ -5799,7 +5805,8 @@ INFO:
     --song_format format        Print the song data in a specific format (see config file).
     --song_shorthand on/off     Print the Artist/Album/Title on separate lines.
     --memory_percent on/off     Display memory percentage.
-    --memory_unit kib/mib/gib   Memory output unit.
+    --memory_unit (k/m/g/t)ib   Memory output unit.
+    --memory_precision integer  Change memory output precision. (≥0, default=2)
     --memory_precision 0-3      Decimal places for memory values.
     --music_player player-name  Manually specify a player to use.
                                 Available values are listed in the config file
