@@ -3879,6 +3879,8 @@ get_term() {
     # also set if using a terminal on an X server.
     [[ -z "$term" && "$TERMUX_VERSION" ]] && term="Termux ${TERMUX_VERSION}"
 
+    [[ $FIG_TERM == "1" ]] && term="$term + Fig"
+
     # Log that the function was run.
     term_run=1
 }
