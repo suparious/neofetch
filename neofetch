@@ -40,7 +40,7 @@ sys_locale=${LANG:-C}
 XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-${HOME}/.config}
 PATH=$PATH:/usr/xpg4/bin:/usr/sbin:/sbin:/usr/etc:/usr/libexec
 reset='\e[0m'
-shopt -s nocasematch
+shopt -s nocasematch extglob
 
 # Speed up script by not using unicode.
 LC_ALL=C
@@ -74,6 +74,7 @@ print_info() {
     info "CPU" cpu
     info "GPU" gpu
     info "Memory" memory
+    info "Network" network
 
     # info "GPU Driver" gpu_driver  # Linux/macOS only
     # info "CPU Usage" cpu_usage
@@ -290,13 +291,14 @@ cpu_speed="on"
 # Display CPU cores in output
 #
 # Default: 'logical'
-# Values:  'logical', 'physical', 'off'
+# Values:  'logical', 'physical', 'hybrid', 'off'
 # Flag:    --cpu_cores
-# Support: 'physical' doesn't work on BSD.
+# Support: 'physical' doesn't work on BSD. 'hybrid' works on Linux only.
 #
 # Example:
 # logical:  'Intel i7-6500U (4) @ 3.1GHz' (All virtual cores)
 # physical: 'Intel i7-6500U (2) @ 3.1GHz' (All physical cores)
+# hybrid:   '2 x Intel i7-6500U (2) @ 3.1GHz' (physical cores x virtual cores per physical core)
 # off:      'Intel i7-6500U @ 3.1GHz'
 cpu_cores="logical"
 
@@ -1382,7 +1384,11 @@ get_model() {
         ;;
 
         BSD|MINIX)
-            model=$(sysctl -n hw.vendor hw.product)
+            if [[ $(uname -s) = "FreeBSD" ]]; then
+                model=$(kenv smbios.system.version)
+            else
+                model=$(sysctl -n hw.vendor hw.product)
+            fi
         ;;
 
         Windows)
@@ -2312,8 +2318,16 @@ get_cpu() {
 
             # Get CPU cores.
             case $cpu_cores in
-                "logical" | "on") cores="$(grep -c "^processor" "$cpu_file")" ;;
-                "physical") cores="$(awk '/^core id/&&!a[$0]++{++i} END {print i}' "$cpu_file")" ;;
+                "logical" | "on") 
+                    cores="$(grep -c "^processor" "$cpu_file")" ;;
+                "physical") 
+                    cores="$(awk '/^core id/&&!a[$0]++{++i} END {print i}' "$cpu_file")" 
+                ;;
+                "hybrid")
+                    logical_cores="$(grep -c "^processor" "$cpu_file")" 
+                    cores=$logical_cores
+                    physical_cores="$(awk '/^core id/&&!a[$0]++{++i} END {print i}' "$cpu_file")"
+                 ;;
             esac
         ;;
 
@@ -2498,6 +2512,13 @@ get_cpu() {
     [[ "$cpu_cores" != "off" && "$cores" ]] && \
         case $os in
             "Mac OS X"|"macOS") cpu="${cpu/@/(${cores}) @}" ;;
+            "Linux") 
+                if [[ "$cpu_cores" == "hybrid" ]]; then
+                    cpu="$physical_cores x $cpu ($((logical_cores / physical_cores)))"
+                else
+                    cpu="$cpu ($cores)"
+                fi 
+            ;;
             *)                  cpu="$cpu ($cores)" ;;
         esac
 
@@ -2882,6 +2903,49 @@ get_memory() {
         "infobar") memory="${memory} $(bar "${mem_used}" "${mem_total}")" ;;
         "barinfo") memory="$(bar "${mem_used}" "${mem_total}")${info_color} ${memory}" ;;
     esac
+}
+
+get_network() {
+    case $os in
+        "Linux")
+            while IFS= read -r i; do
+                # List all operational, physical devices
+                if [ "$(cat "$i/operstate")" = "up" ] && [ -e "$i/device" ]; then
+                    if [ ! -e "$i/phy80211" ]; then
+                        networks+="$(cat "$i/speed")"
+                    else
+                        networks+="Wifi"
+                        phy="$(cat "$i/phy80211/name")"
+                        (iw "$phy" info | grep -qF 'VHT Capabilities') && networks+='6'
+                    fi
+                    networks+=$'\n'
+                fi
+            done < <(find /sys/class/net/ -type l)
+        ;;
+    esac
+    while IFS=' ' read -r n i; do
+        if [ -n "$i" ]; then
+            [ "$n" -gt 1 ] && network+="${n}x "
+            if [ "$i" = "Wifi" ]; then
+                network+="Wifi; "
+            elif [ "$i" = "Wifi6" ]; then
+                network+="Wifi6; "
+            elif [ "$i" = "-1" ]; then
+                network+="Unknown; "
+            elif [ "${i%000}" = "$i" ]; then
+                network+="$i Mbps; "
+            elif [ "$i" = "2500" ]; then
+                network+="2.5 Gbps; "
+            else
+                network+="${i%000} Gbps; "
+            fi
+        fi
+    done < <(sort -rn <<<"$networks" | uniq -c)
+    if [ -z "$network" ]; then
+        network="None"
+    else
+        network="${network%; }"
+    fi
 }
 
 get_song() {
@@ -4173,6 +4237,26 @@ image_backend() {
     [[ "$image_backend" != "off" ]] && printf '\e[%sA\e[9999999D' "${lines:-0}"
 }
 
+# From pull request #1220, this is a fast way to strip character codes
+strip_escape_codes() {
+    local input="${1//\"/\\\"}" output="" i char within_code=0
+    for ((i=0; i < ${#input}; ++i)); do
+        char="${input:i:1}"
+        if (( within_code == 1 )); then
+            case "${char}" in
+                [a-zA-Z]) within_code=0 ;;
+            esac
+            continue
+        fi
+        if [[ "${char}" == $'\e' ]]; then
+            within_code=1
+            continue
+        fi
+        output+="${char}"
+    done
+    eval "$2='${output}'"
+}
+
 print_ascii() {
     if [[ -f "$image_source" && ! "$image_source" =~ (png|jpg|jpeg|jpe|svg|gif) ]]; then
         ascii_data="$(< "$image_source")"
@@ -4186,9 +4270,13 @@ print_ascii() {
     LC_ALL="$sys_locale"
 
     # Calculate size of ascii file in line length / line count.
-    while IFS=$'\n' read -r line; do
-        line=${line//\\\\/\\}
+    while IFS=$'\n' read line; do
         line=${line//█/ }
+        # Fast method to strip codes
+        strip_escape_codes "${line}" line
+        # Use patterns to replace color codes that the above line did not catch
+        line=${line//\\033\[*([0-9;])[JKmsu]/}
+        line=${line//\[*([0-9;])[JKmsu]/}
         ((++lines,${#line}>ascii_len)) && ascii_len="${#line}"
     done <<< "${ascii_data//\$\{??\}}"
 
@@ -5597,6 +5685,7 @@ get_args() {
                    # nfo "GPU" gpu
                     #info "GPU Driver" gpu_driver
                     info "Memory" memory
+                    info "Network" network
 
                     info "CPU Usage" cpu_usage
                     info "Disk" disk
