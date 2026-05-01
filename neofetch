@@ -2504,6 +2504,10 @@ get_cpu() {
                     cpu="$(lscpu | awk  '/Model name:/ {print $3}')"
                 ;;
 
+		"loongarch"*)
+                    cpu="$(awk -F':' '/Model Name/ {print $2; exit}' "$cpu_file")"
+		;;
+
                 *)
                     cpu="$(awk -F '\\s*: | @' \
                             '/model name|Hardware|Processor|^cpu model|chip type|^cpu type/ {
