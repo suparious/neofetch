@@ -2654,6 +2654,7 @@ get_gpu() {
                     ;;
 
                     *"NVIDIA"*)
+                        gpu="${gpu/*NVIDIA}"
                         gpu="${gpu/*\[}"
                         gpu="${gpu/\]*}"
                         gpu="NVIDIA $gpu"
