@@ -2363,6 +2363,19 @@ get_wm() {
                                -e "[x]11fs" \
                                -e "[x]monad")
 
+        # Fallback for non-EWMH WMs.
+        [[ $wm ]] ||
+            wm=$(ps "${ps_flags[@]}" | grep -m 1 -o \
+                               -e "[s]owm" \
+                               -e "[c]atwm" \
+                               -e "[f]vwm" \
+                               -e "[d]wm" \
+                               -e "[2]bwm" \
+                               -e "[m]onsterwm" \
+                               -e "[t]inywm" \
+                               -e "[x]11fs" \
+                               -e "[x]monad")
+
     else
         case $os in
             "Mac OS X"|"macOS")
@@ -3474,6 +3487,14 @@ get_song() {
 
         "xmms2d"*)
             song="$(xmms2 current -f "\${artist}"$' \n'"\${album}"$' \n'"\${title}")"
+        ;;
+
+        "cmus"*)
+            # NOTE: cmus >= 2.8.0 supports mpris2
+            song="$(cmus-remote -Q | awk '/tag artist/ {$1=$2=""; a=$0}
+                                          /tag album / {$1=$2=""; b=$0}
+                                          /tag title/  {$1=$2=""; t=$0}
+                                          END {print a " \n" b " \n" t}')"
         ;;
 
         "cmus"*)
@@ -9313,30 +9334,6 @@ ${c1}..............
 EOF
         ;;
         
-        "Kaisen"*)
-            set_colors 1 7 3
-            read -rd '' ascii_data <<'EOF'
-${c1}                          `
-                  `:+oyyho.
-             `+:`sdddddd/
-        `+` :ho oyo++ohds-`
-       .ho :dd.  .: `sddddddhhyso+/-
-       ody.ddd-:yd- +hysssyhddddddddho`
-       yddddddhddd` ` `--`   -+hddddddh.
-       hddy-+dddddy+ohh/..+sddddy/:::+ys
-      :ddd/sdddddddddd- oddddddd       `
-     `yddddddddddddddd/ /ddddddd/
-:.  :ydddddddddddddddddo..sddddddy/`
-odhdddddddo- `ddddh+-``....-+hdddddds.
--ddddddhd:   /dddo  -ydddddddhdddddddd-
- /hdy:o - `:sddds   .`./hdddddddddddddo
-  `/-  `+hddyosy+       :dddddddy-.-od/
-      :sydds           -hddddddd`    /
-       .+shd-      `:ohddddddddd`
-                `:+ooooooooooooo:
-EOF
-        ;;
-
 
         "KaOS"*)
             set_colors 4 7 1
