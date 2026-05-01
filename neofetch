@@ -1024,6 +1024,12 @@ get_distro() {
                 esac
 
 
+            elif [[ -f /etc/manjaro-release ]]; then
+                case $distro_shorthand in
+                    on|tiny) distro="Manjaro Linux" ;;
+                    *) distro="Manjaro Linux $(lsb_release -src)"
+                esac
+
             elif [[ -f /etc/siduction-version ]]; then
                 case $distro_shorthand in
                     on|tiny) distro=Siduction ;;
