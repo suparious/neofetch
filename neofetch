@@ -819,7 +819,7 @@ image_source="auto"
 #       ArcoLinux, ArchBox, ARCHlabs, ArchStrike, XFerience, ArchMerge, Arch,
 #       Artix, Arya, Bedrock, Bitrig, BlackArch, BLAG, BlankOn, BlueLight, CalinixOS
 #       Bodhi, bonsai, BSD, BunsenLabs, CachyOS, Calculate, Carbs, CentOS, Chakra, ChaletOS,
-#       Chapeau, Chrom*, Cleanjaro, ClearOS, Clear_Linux, Clover, Condres,
+#       Chapeau, ChonkySealOS, Chrom*, Cleanjaro, ClearOS, Clear_Linux, Clover, Condres,
 #       Container_Linux, Crystal Linux, CRUX, Cucumber, dahlia, Debian, Deepin,
 #       DesaOS, Devuan, DracOS, DarkOs, Itc, DragonFly, Drauger, Elementary, Elive,
 #       EndeavourOS, Endless, EuroLinux, Exherbo, Fedora, Feren, FreeBSD,
@@ -7444,6 +7444,33 @@ ${c1}               .-/-.
     `//////////${c2}++${c1}//////////
        `////////////////.
            -////////-
+EOF
+        ;;
+
+        "ChonkySealOS"*)
+            set_colors 7
+            read -rd '' ascii_data <<'EOF'
+${c1}                  .-/-.
+            .:-=++****++=-:.
+        .:=+*##%%%%%%%%%%##*+=:.
+      :=*#%%%%%%%%%%%%%%%%%%%%#*=:
+    :=*#%%%%%%%%%%%%%%%%%%%%%%%%#*=.
+   -+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%#+-
+  =+#%%%%@@@@@@@%%%%%%%@@@@@@@%%%%%#+=
+ =+#@%%%%*+=-==*%%%%%%%#+====*%%%%%@#+=
+:+*%%%%@*       +@%%%@#       -@%%%%%*+:
+=+#%%%%%%#+====*###%%##*=--=+*%%%%%%%#+=
++*%%%%%%%@@##%%%%*=::=#%%%##%@%%%%%%%%*+
++*%%%%%%%@**@%%%%%@==@%%%%%@+#%%%%%%%%*+
+=+#%%%%%%@#*@%%%%%%**%%%%%@%+%%%%%%%%#+=
+:+*%%%%%%%@#*####**###*####*%@%%%%%%%*+:
+ =+#@%%%%%%@%%%%%%%@@%%%%%%%%%%%%%%@#+=
+  =+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#+=
+   -+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%*+-
+    .=*#%%%%%%%%%%%%%%%%%%%%%%%%#*=.
+      :=*##%%%%%%%%%%%%%%%%%%##*=:
+        .:=+*##%%%%%%%%%%##*+=:.
+            .:-=++****++=-:.
 EOF
         ;;
 
