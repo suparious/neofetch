@@ -8599,7 +8599,7 @@ EOF
         "LEDE"*)
             set_colors 4 7 1
             read -rd '' ascii_data <<'EOF'
-    ${c1} _________
+${c1}     _________
     /        /\
    /  LE    /  \
   /    DE  /    \
@@ -8671,7 +8671,7 @@ EOF
         "LMDE"*)
             set_colors 2 7
             read -rd '' ascii_data <<'EOF'
-         ${c2}`.-::---..
+${c2}         `.-::---..
 ${c1}      .:++++ooooosssoo:.
     .+o++::.      `.:oos+.
 ${c1}   :oo:.`             -+oo${c2}:
