@@ -4437,8 +4437,8 @@ get_local_ip() {
         ;;
 
         "Mac OS X" | "macOS" | "iPhone OS")
-            local_ip="$(ipconfig getifaddr en0)"
-            [[ -z "$local_ip" ]] && local_ip="$(ipconfig getifaddr en1)"
+            local_ip="$(ifconfig en0 | grep "inet " | awk '{print $2}')"
+            [[ -z "$local_ip" ]] && local_ip="$(ifconfig en1 | grep "inet " | awk '{print $2}')"
         ;;
 
         "Windows")
