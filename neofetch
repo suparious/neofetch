@@ -5668,7 +5668,7 @@ ASCII:
                                 OS Elbrus, PacBSD, Parabola, Pardus, Parrot, Parsix, TrueOS,
                                 PCLinuxOS, pearOS, Pengwin, Peppermint, Pisi, popos, Porteus, PostMarketOS,
                                 Proxmox, PuffOS, Puppy, PureOS, Qubes, Qubyt, Quibian, Radix, Raspbian, RebornOS,
-                                Redstar, Redcore, Redhat, Refracted_Devuan, Regata, Regolith, Rosa,
+                                Redstar, Redcore, Redhat, redcatOS, Refracted_Devuan, Regata, Regolith, Rosa,
                                 sabotage, Sabayon, Sailfish, SalentOS, Salix, Scientific, Septor,
                                 SereneLinux, SharkLinux, Siduction, Slackel, Slackware, SliTaz, SmartOS,
                                 Solus, Sulin, Source_Mage, Sparky, Star, SteamOS, SunOS, openSUSE_Leap,
@@ -12692,6 +12692,36 @@ ${c4}<----|====${c1}O)))${c4}==${c1}) \) /${c4}====|
          ${c5}______${c1}( (_  / \______/
        ${c5},'  ,-----'   |
        `--{__________)
+EOF
+                ;;
+		"redcatOS")
+                    set_colors 1
+                    read -rd '' ascii_data <<'EOF'
+${c1}
+      :.%                       :%;
+      :S. X                   t:88:
+       tX8S88:.             @X88S:;
+      :X%:;8S S           : @8::t8;
+       88. .%S8 8t.    t8.8S:.. :8
+      tXt.   :X@%S8@X@@tt@t.    t8S.
+       ;8.     ....       .     ;8
+      ;%@                       :8%.
+      ::8                       :8X
+      X.                        :@8@
+     .t..                       ..8%;
+    @8%:                          :X
+   .t..                           XX..
+    SX                             ;8.
+    @8                             ;8t..
+     @                             %8X.
+   .%t                             8 t
+   ..8@                           :t8.
+    .88S.                         @.. .
+      8@%                        @ t
+     .:S8t:.                   X:8t
+       ..;@@.                .8S%:
+          % S%t.          ;8%88;
+             %8 888@888t8888;..
 EOF
                 ;;
 
