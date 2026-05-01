@@ -852,7 +852,7 @@ image_source="auto"
 #       Antrix, CentOS, Cleanjaro, ElementaryOS, GUIX, Hyperbola,
 #       Manjaro, MXLinux, NetBSD, Parabola, POP_OS, PureOS,
 #       Slackware, SunOS, LinuxLite, OpenSUSE, Raspbian,
-#       postmarketOS, and Void have a smaller logo variant.
+#       postmarketOS, Linux, and Void have a smaller logo variant.
 #       Use '{distro name}_small' to use the small variants.
 ascii_distro="auto"
 
@@ -9044,6 +9044,18 @@ ${c3}  ##${c2}#${c1}###########${c2}##${c3}#
 ${c3}######${c2}#${c1}#######${c2}#${c3}######
 ${c3}#######${c2}#${c1}#####${c2}#${c3}#######
 ${c3}  #####${c2}#######${c3}#####
+EOF
+        ;;
+        "Linux_small")
+            set_colors fg 8 3
+            read -rd '' ascii_data << 'EOF'
+${c2}    ___
+${c2}   (${c1}.. ${c2}|
+${c2}   (${c3}<> ${c2}|
+${c2}  / ${c1}__  ${c2}\\
+${c2} ( ${c1}/  \\ ${c2}/|
+${c3}_${c2}/\\ ${c1}__)${c2}/${c3}_${c2})
+${c3}\/${c2}-____${c3}\/
 EOF
         ;;
 
