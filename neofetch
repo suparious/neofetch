@@ -1640,6 +1640,8 @@ get_model() {
                 8562): "IBM z15 Model T02 (Athena)" ;;
                 3931): "IBM z16 (Artemis)" ;;
                 3932): "IBM z16 Model A02 (Selene)" ;;
+                9175): "IBM z17 (Metis)" ;;
+
             esac
 
             model=$_
