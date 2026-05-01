@@ -978,6 +978,9 @@ get_os() {
         AIX)      os=AIX ;;
         IRIX*)    os=IRIX ;;
         FreeMiNT) os=FreeMiNT ;;
+        CurtainOS)
+            os=CurtainOS
+        ;;
 
         Linux|GNU*|Android)
             os=Linux
@@ -1332,6 +1335,10 @@ get_distro() {
             distro="z/OS ${kernel_version}"
             os_arch=off
         ;;
+        
+        CurtainOS)
+            distro=CurtainOS
+        ;;
     esac
 
     distro=${distro//Enterprise Server}
@@ -1356,7 +1363,7 @@ get_distro() {
 
 get_model() {
     case $os in
-        Linux)
+        Linux|CurtainOS)
             if [[ -d /android/system/ || -d /system/app/ ]]; then
                 model="$(echo "$(getprop ro.product.brand) $(getprop ro.product.model)" | sed 's/.*/\u&/')"
 
@@ -1671,7 +1678,7 @@ get_kernel() {
 get_uptime() {
     # Get uptime in seconds.
     case $os in
-        Linux|Windows|MINIX)
+        Linux|Windows|MINIX|CurtainOS)
             if [[ -r /proc/uptime ]]; then
                 s=$(< /proc/uptime)
                 s=${s/.*}
@@ -2504,7 +2511,7 @@ get_wm_theme() {
 
 get_cpu() {
     case $os in
-        "Linux" | "MINIX" | "Windows")
+        "Linux" | "MINIX" | "Windows" | "CurtainOS")
             # Get CPU name.
             cpu_file="/proc/cpuinfo"
 
@@ -7061,6 +7068,33 @@ ${c1}|${c2}[][][][][][][][][][][][][][][][]${c1}|
 ${c1}|${c2} [][][][][][][][][][][][][][][] ${c1}|
 ${c1}|${c2}[][][][][][][][][][][][][][][][]${c1}|
 ${c1} -----------------------------------
+EOF
+        ;;
+        
+        "CurtainOS"*)
+            set_colors 1 3
+            read -rd '' ascii_data <<'EOF'
+${c2} ==========================================
+${c1}   |     \             |     /
+   |      |       /  / |    /
+   |   |    /       / /    /
+   |   |    | |   /        |
+   |   ' , /  /  /        /
+   |     |   / /  /  ,   /
+   |     |   Y   /  /   /
+   |    /   /   /    ,/
+   |   |    '  /  ,/
+   | |    /  ,  ,/
+${c2}   :--_____---;${c1}'
+${c2}   :---____--;
+${c1}   | \       |   ${c2}C U R T A I N   O S
+${c1}   | , |   ' |
+   | | ', | ||   ${c2}uncover  the  light
+${c1}   | | /  | ||
+   | , |/    |
+   | ' '     |
+   |/--___/^\/
+   \ ${c2} '   '' '
 EOF
         ;;
 
