@@ -1916,6 +1916,10 @@ get_packages() {
             case $kernel_name in
                 FreeBSD|DragonFly) has pkg && tot pkg info </dev/null ;;
 
+                "loongarch64")
+                    cpu="$(awk -F':' '/Model/ {print $2; exit}' "$cpu_file")"
+                ;;
+
                 *)
                     has pkg && dir /var/db/pkg/*
 
