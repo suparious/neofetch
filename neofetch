@@ -5653,7 +5653,7 @@ ASCII:
                                 sabotage, Sabayon, Sailfish, SalentOS, Salix, Scientific, Septor,
                                 SereneLinux, SharkLinux, Siduction, Slackel, Slackware, SliTaz, SmartOS,
                                 Solus, Sulin, Source_Mage, Sparky, Star, SteamOS, SunOS, openSUSE_Leap,
-                                t2, openSUSE_Tumbleweed, openSUSE, SwagArch, Tails, Trisquel,
+                                t2, openSUSE_Tumbleweed, openSUSE, SwagArch, Tails, Tatra, Trisquel,
                                 Ubuntu-Cinnamon, Ubuntu-Budgie, Ubuntu-GNOME, Ubuntu-Kylin, Ubuntu-MATE,
                                 Ubuntu-Studio, Ubuntu, Floflis, Univention, Venom, Void, semc, Obarun,
                                 windows10, Windows7, Xubuntu, Zorin, KrassOS, and IRIX have ascii logos.
@@ -12371,7 +12371,30 @@ ${c1}
    .YBGPYJ??????Y?^^^^~7?????????7?!.   
    .^^:..::::::::.....:::::::::::..:.  
 EOF
+              ;;
+
+                "Tatra"*)
+                    set_colors 4 7
+                    read -rd '' ascii_data <<'EOF'
+${c1}
+         . .:. .         .:.            
+        .^^.!.:::.    .^!?J?^           
+      .:^.^!!!~:~^.  .7??77!~~^.        
+     .~^.!??77?!.^~:  ..:^^7JJJ7~~^.    
+     .^~.^7???7~.~~.   .7??????????!    
+      .:^:^^~^^:!^ ^:  .......^!:...    
+    .!7~.::.!.::. ~BG~    :^  ^~:       
+    :!!~   ~.    ?BBBB!  ^?J!.  .!~.    
+     :!. .JBY. .Y#BBBY?~!???J7. :^^.    
+     .. :5#B#P~P#BBP?7?55J?J7:          
+       ^P#BBBBBBBB5?7J5555J!.....       
+      !BBBBBBGBBGJ77::Y555J?77777^      
+     ?BBBBG5JJ5PJ?!:  .?Y??????77?~.    
+   .YBGPYJ??????Y?^^^^~7?????????7?!.   
+   .^^:..::::::::.....:::::::::::..:.  
+EOF
                 ;;
+                
                 
         "Zorin"*)
             set_colors 4 6
