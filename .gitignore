@@ -9,3 +9,4 @@ CLAUDE.md
 triaged-issues.json
 upstream-prs.json
 
+.orig\n.rej\n*.orig\n*.rej
