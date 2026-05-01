@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/data/data/com.termux/files/usr/bin/env bash
 # vim: noai:ts=4:sw=4:expandtab
 # shellcheck source=/dev/null
 # shellcheck disable=2009
@@ -971,7 +971,7 @@ get_os() {
         IRIX*)    os=IRIX ;;
         FreeMiNT) os=FreeMiNT ;;
 
-        Linux|GNU*)
+        Linux|GNU*|Android)
             os=Linux
         ;;
 
@@ -1320,7 +1320,7 @@ get_model() {
     case $os in
         Linux)
             if [[ -d /android/system/ || -d /system/app/ ]]; then
-                model="$(getprop ro.product.brand) $(getprop ro.product.model)"
+                model="$(echo "$(getprop ro.product.brand) $(getprop ro.product.model)" | sed 's/.*/\u&/')"
 
             elif [[ -f /sys/devices/virtual/dmi/id/product_name ||
                     -f /sys/devices/virtual/dmi/id/product_version ]]; then
@@ -2041,6 +2041,19 @@ get_wm() {
             wm=${wm/\"}
             wm=${wm/\"*}
         }
+
+        # Fallback for non-EWMH WMs.
+        [[ $wm ]] ||
+            wm=$(ps "${ps_flags[@]}" | grep -m 1 -o \
+                               -e "[s]owm" \
+                               -e "[c]atwm" \
+                               -e "[f]vwm" \
+                               -e "[d]wm" \
+                               -e "[2]bwm" \
+                               -e "[m]onsterwm" \
+                               -e "[t]inywm" \
+                               -e "[x]11fs" \
+                               -e "[x]monad")
 
         # Fallback for non-EWMH WMs.
         [[ $wm ]] ||
@@ -3089,6 +3102,14 @@ get_song() {
                                           END {print a " \n" b " \n" t}')"
         ;;
 
+        "cmus"*)
+            # NOTE: cmus >= 2.8.0 supports mpris2
+            song="$(cmus-remote -Q | awk '/tag artist/ {$1=$2=""; a=$0}
+                                          /tag album / {$1=$2=""; b=$0}
+                                          /tag title/  {$1=$2=""; t=$0}
+                                          END {print a " \n" b " \n" t}')"
+        ;;
+
         "spotify"*)
             case $os in
                 "Linux") get_song_dbus "spotify" ;;
@@ -4027,6 +4048,9 @@ get_battery() {
 
                     bat="${bat/*axp288_fuel_gauge}"
                     prin "${subtitle:+${subtitle}${bat: -1}}" "$battery"
+                else
+
+                    battery="$(termux-battery-status | awk '{$1=$1};1'  | awk -F [:,] '$1 == "\"percentage\"" {print $2"%"}')"
                 fi
             done
             return
@@ -5114,10 +5138,6 @@ cache_uname() {
 
     if [[ "$kernel_name" == "Darwin" ]] ||
        [[ "$kernel_name" == "FreeBSD" && -f /System/Library/CoreServices/SystemVersion.plist ]]; then
-        # macOS can report incorrect versions unless this is 0.
-        # https://github.com/dylanaraps/neofetch/issues/1607
-        export SYSTEM_VERSION_COMPAT=0
-
         IFS=$'\n' read -d "" -ra sw_vers <<< "$(awk -F'<|>' '/key|string/ {print $3}' \
                             "/System/Library/CoreServices/SystemVersion.plist")"
         for ((i=0;i<${#sw_vers[@]};i+=2)) {
@@ -5867,32 +5887,6 @@ ${c1}          ........::::....
       ``:##:.${c2}@@@@@@@@@@@@${c1}^## # : 
          : ##  ${c2}\@@@;@@@/ ${c1}:: # : 
                  ${c2} VVV
-EOF
-        ;;
-
-        "AlmaLinux"*)
-            set_colors 1 3 4 2 6
-            read -rd '' ascii_data <<'EOF'
-${c1}         'c:.
-${c1}        lkkkx, ..       ${c2}..   ,cc,
-${c1}        okkkk:ckkx'  ${c2}.lxkkx.okkkkd
-${c1}        .:llcokkx'  ${c2}:kkkxkko:xkkd,
-${c1}      .xkkkkdood:  ${c2};kx,  .lkxlll;
-${c1}       xkkx.       ${c2}xk'     xkkkkk:
-${c1}       'xkx.       ${c2}xd      .....,.
-${c3}      .. ${c1}:xkl'     ${c2}:c      ..''..
-${c3}    .dkx'  ${c1}.:ldl:'. ${c2}'  ${c4}':lollldkkxo;
-${c3}  .''lkkko'                     ${c4}ckkkx.
-${c3}'xkkkd:kkd.       ..  ${c5};'        ${c4}:kkxo.
-${c3},xkkkd;kk'      ,d;    ${c5}ld.   ${c4}':dkd::cc,
-${c3} .,,.;xkko'.';lxo.      ${c5}dx,  ${c4}:kkk'xkkkkc
-${c3}     'dkkkkkxo:.        ${c5};kx  ${c4}.kkk:;xkkd.
-${c3}       .....   ${c5}.;dk:.   ${c5}lkk.  ${c4}:;,
-             ${c5}:kkkkkkkdoxkkx
-              ,c,,;;;:xkkd.
-                ;kkkkl...
-                ;kkkkl
-                 ,od;
 EOF
         ;;
 
@@ -8979,33 +8973,6 @@ ${c3} ████████████${c4}  ██████████�
 EOF
         ;;
 
-        "TeArch"*)
-            set_colors 39 7 1
-            read -rd '' ascii_data <<'EOF'
-${c1}          @@@@@@@@@@@@@@
-      @@@@@@@@@              @@@@@@
-     @@@@@                     @@@@@
-     @@                           @@
-      @%                         @@
-       @                         @
-       @@@@@@@@@@@@@@@@@@@@@@@@ @@
-       .@@@@@@@@@@@@/@@@@@@@@@@@@
-       @@@@@@@@@@@@///@@@@@@@@@@@@
-      @@@@@@@@@@@@@((((@@@@@@@@@@@@
-     @@@@@@@@@@@#(((((((#@@@@@@@@@@@
-    @@@@@@@@@@@#//////////@@@@@@@@@@&
-    @@@@@@@@@@////@@@@@////@@@@@@@@@@
-    @@@@@@@@//////@@@@@/////@@@@@@@@@
-    @@@@@@@//@@@@@@@@@@@@@@@//@@@@@@@
- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@     .@@@@@@@@@@@@@@@@@@@@@@@@@      @
- @@@@@@           @@@.           @@@@@@@
-   @@@@@@@&@@@@@@@#  #@@@@@@@@@@@@@@@@
-      @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-          @@@@@@@@@@@@@@@@@@@@@
-EOF
-        ;;
-
         "Maui"*)
             set_colors 6 7
             read -rd '' ascii_data <<'EOF'
@@ -10004,27 +9971,6 @@ EOF
           -/osyhhyso:. \e[0m
 EOF
                 ;;
-
-        "Pengwin"*)
-            set_colors 5 5 13
-            read -rd '' ascii_data <<'EOF'
-${c3}                     ...`
-${c3}                     `-///:-`
-${c3}                       .+${c2}ssys${c3}/
-${c3}                        +${c2}yyyyy${c3}o    ${c2}
-${c2}                        -yyyyyy:
-${c2}           `.:/+ooo+/:` -yyyyyy+
-${c2}         `:oyyyyyys+:-.`syyyyyy:
-${c2}        .syyyyyyo-`   .oyyyyyyo
-${c2}       `syyyyyy   `-+yyyyyyy/`
-${c2}       /yyyyyy+ -/osyyyyyyo/.
-${c2}       +yyyyyy-  `.-:::-.`
-${c2}       .yyyyyy-
-${c3}        :${c2}yyyyy${c3}o
-${c3}         .+${c2}ooo${c3}+
-${c3}           `.::/:.
-EOF
-        ;;
 
         "Peppermint"*)
             set_colors 1 15 3
