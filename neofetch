@@ -1243,7 +1243,7 @@ get_distro() {
             fi
         ;;
 
-        "Mac OS X"|"macOS")
+        "Mac OS X"|"macOS"|"ravynOS")
             case $osx_version in
                 10.4*)  codename="Mac OS X Tiger" ;;
                 10.5*)  codename="Mac OS X Leopard" ;;
@@ -1937,6 +1937,8 @@ get_packages() {
             has lslpp && ((packages+=$(lslpp -J -l -q | grep -cv '^#')))
             has rpm   && tot rpm -qa
         ;;
+
+        "ravynOS") de=Magma ;;
 
         Windows)
             case $kernel_name in
@@ -10904,6 +10906,32 @@ ${c1}  `.::///+:/-.        --///+//-:``
       `...`  `...--..`  `...`
             .::::::::::
              `.-::::-`
+EOF
+        ;;
+
+        "ravynOS")
+        set_colors 15
+        read -rd '' ascii_data <<'EOF'
+${c1}                ..oooo..                
+           .o$$$$$$$$$$$$$$o.           
+        od$$$$$$$$$$$$$$$$$$$$$o        
+      o$$$$$$$$$$$$$$$$$$$$$$$$$$o      
+    .$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$.    
+   d$$$$$$$$$********$$$$$$$$$$$$$$$b   
+  d$$$$$$$*            °****?$$$$$$$$b  
+  $$$$$$*                     °$$$$$$$  
+ d$$**                     .oo$$$$$$$$b 
+ *°                     o$$$$$$$$$$$$$$ 
+                      o$$$$$$$$$$$$$$$$ 
+                    o$$$$$$$$$$$$$$$$$P 
+                    *$$$$$$$$$$$$$$$$$  
+                      ?$$$$$$$$$$$$$$P  
+                       $$$$$$$$$$$$$P   
+                       $$$$$$$$$$$$P    
+                      ?$$$$$$$$$$*      
+                       $$$$$$$*°        
+                      d$$$$*°           
+                       °
 EOF
         ;;
 
