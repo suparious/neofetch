@@ -5725,7 +5725,7 @@ ASCII:
                                 LinuxMint, Live_Raizo, MX_Linux, Namib, Neptune, NetBSD, Netrunner, Nitrux,
                                 NixOS, Nurunner, NuTyX, OBRevenge, OpenBSD, openEuler, OpenIndiana,
                                 openmamba, OpenMandriva, OpenStage, OpenWrt, osmc, Oracle, Orchid, 
-                                OS Elbrus, PacBSD, Parabola, Pardus, Parrot, Parsix, TrueOS,
+                                OS Elbrus, PacBSD, Parabola, Pardus, Parrot, Parch, TrueOS,
                                 PCLinuxOS, pearOS, Pengwin, Peppermint, Pisi, popos, Porteus, PostMarketOS,
                                 Proxmox, PuffOS, Puppy, PureOS, Qubes, Qubyt, Quibian, Radix, Raspbian, RebornOS,
                                 Redstar, Redcore, Redhat, redcatOS, Refracted_Devuan, Regata, Regolith, Rosa,
@@ -12176,6 +12176,40 @@ dKK${c1}KKKKKKKKKK;.;oOKx,..${c2}^${c1}..;kKKK0.${c2}  dKd
      'l0Kk:.              .;xK0l'
         'lkK0xl:;,,,,;:ldO0kl'
             '^:ldxkkkkxdl:^'
+EOF
+        ;;
+        "parch"* | "Parch"* | "PARCH"*)
+            set_colors 4 7 1
+            read -rd '' ascii_data <<'EOF'                                                                     
+                                                                                
+
+‌		${c1}       ,:lodddd.
+                   .:clooood.
+                 ;clllooooc
+               ;cclllllloo
+              .cccccllllll
+            .   ,cccclllll
+           ':::;; ccccclll;
+          .:::cccccccccccll;
+          ;::::ccccllllllcll:
+         .;::::cccclllloool::;
+         ;;;::::cccclllolc::::;.
+         ;;;::::cccclllccc:::::;.
+         ;;;::::cccclccccc::::::;.
+         ;;;;::::::llcccccc:::::'
+         ;;;;:; ,clllccccccc::
+         .;;  .cllllllcccccc::;::::'
+             .'''''''''',:lddoooolll
+            '.....'''',cdddooooollll
+           ........':oddddoooolllllc
+            ....';ldddddooooolllllc:
+              ,cdddddddooooollllccc
+               :ddddddoooolllllccc
+                 ;ddooooolllllcc.
+                    :ooollllc.
+                        c'
+                                                                                
+                                                                                                                
 EOF
         ;;
         "parch"* | "Parch"* | "PARCH"*)
