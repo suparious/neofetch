@@ -2165,6 +2165,7 @@ get_de() {
             Cinnamon*) de_ver=$(cinnamon --version) ;;
             Deepin*)   de_ver=$(awk -F'=' '/Version/ {print $2}' /etc/deepin-version) ;;
             Budgie*)   de_ver=$(budgie-desktop --version) ;;
+            Cutefish*) de_ver=$(awk -F'=' '/Version/ {print $2}' /etc/cutefish) ;;
             LXQt*)     de_ver=$(lxqt-session --version) ;;
             Lumina*)   de_ver=$(lumina-desktop --version 2>&1) ;;
             Trinity*)  de_ver=$(tde-config --version) ;;
@@ -3910,6 +3911,11 @@ END
 )"
         ;;
 
+        "cutefish-terminal")
+            term_font="$(awk -F '=' '/fontName=/ {a=$2} /fontPointSize=/ {b=$2} END {print a,b}' \
+                         "${XDG_CONFIG_HOME}/cutefishos/cutefish-terminal.conf")"
+        ;;
+
         "iTerm2")
             # Unfortunately the profile name is not unique, but it seems to be the only thing
             # that identifies an active profile. There is the "id of current session of current win-
@@ -4735,6 +4741,11 @@ END
                 "Plasma"*)
                     image=$XDG_CONFIG_HOME/plasma-org.kde.plasma.desktop-appletsrc
                     image=$(awk -F '=' '$1 == "Image" { print $2 }' "$image")
+                ;;
+
+                "Cutefish"*)
+                    image="$XDG_CONFIG_HOME/cutefishos/theme.conf"
+                    image="$(awk -F '=' '$1 == "Wallpaper" {print $2}' "$image")"
                 ;;
 
                 "LXQt"*)
