@@ -2262,6 +2262,11 @@ get_cpu() {
                     cpu="$(awk -F':' '/Model Name/ {print $2; exit}' "$cpu_file")"
                 ;;
 
+                "arm"* | "aarch"*)
+                    cpu="$(awk -F': ' '/^model name/ {print $2; exit}' "$cpu_file")"
+                    [[ -z "$cpu" ]] && cpu="$(awk -F': ' '/^Hardware/ {print $2; exit}' "$cpu_file")"
+                ;;
+
                 *)
                     cpu="$(awk -F '\\s*: | @' \
                             '/model name|Hardware|Processor|^cpu model|chip type|^cpu type/ {
