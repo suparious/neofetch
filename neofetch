@@ -1419,6 +1419,17 @@ get_model() {
                 model="Hackintosh (SMBIOS: $(sysctl -n hw.model))"
             else
                 mac_model=$(sysctl -n hw.model)
+                # On Mac OS X 10.4/10.5, use system_profiler to get the human-readable model name.
+                # The model-identifier case statement below only covers Intel and Apple Silicon
+                # Macs; PowerPC-era Macs (G3/G4/G5) would all fall through to the raw identifier.
+                # system_profiler knows every model natively and shows e.g. "PowerBook G4 15\"".
+                if [[ $osx_version =~ "10.4" || $osx_version =~ "10.5" ]]; then
+                    model="$(system_profiler SPHardwareDataType | grep -E '(Model Name|Machine Name):')"
+                    model="${model/Model Name:/}"
+                    model="${model/Machine Name:/}"
+                    model="${model## }"
+                    model="$model ($mac_model)"
+                else
                 case $mac_model in
                     Mac14,7):               "MacBook Pro (13-inch, M2, 2022)" ;;
                     MacBookPro18,[3-4]):    "MacBook Pro (14-inch, 2021)" ;;
@@ -1518,6 +1529,7 @@ get_model() {
                 esac
 
                 model=$_
+                fi
             fi
         ;;
 
@@ -1862,14 +1874,19 @@ get_packages() {
         manager_pattern=$(printf '/%s$|' "${manager_candidates[@]}")
         manager_pattern=${manager_pattern%"|"}
 
-        # Find all matching executables in PATH directories at once
+        # Find all matching executables in PATH directories at once.
+        # Use a temp file to avoid bash 3+ process substitution (<(…)) that
+        # causes a parse error on Tiger's bash 2.05b.
         OLD_PATH=$PATH
         PATH+=:EOF  # hack to list last PATH dir
         manager_hits=()
+        _pkg_tmp="${TMPDIR:-/tmp}/neofetch_pkgs.$$"
         # shellcheck disable=SC2086
+        printf '%s\n' ${PATH//:/\\/* } 2>/dev/null | grep -Eo "$manager_pattern" 2>/dev/null > "$_pkg_tmp"
         while IFS= read -r hit; do
             manager_hits+=("$hit")
-        done < <(printf '%s\n' ${PATH//:/\/* } 2>/dev/null | grep -Eo "$manager_pattern" 2>/dev/null)
+        done < "$_pkg_tmp"
+        rm -f "$_pkg_tmp"
         PATH=$OLD_PATH
     fi
 
@@ -2720,13 +2737,19 @@ get_cpu() {
 
         "Mac OS X"|"macOS")
             if [[ $osx_version =~ "10.4" || $osx_version =~ "10.5" ]]; then
-                cpu="$(system_profiler SPHardwareDataType | grep CPU\ Type)"
-                cpu="${cpu/CPU\ Type\:/}"
-                
-                speed="$(system_profiler SPHardwareDataType | grep CPU\ Speed)"
-                speed="${speed/CPU\ Speed\:/}"
-		speed="${speed/ MHz/}"
-		speed="${speed/ GHz/}"
+                # 10.4 uses 'CPU Type' / 'CPU Speed'; 10.5 uses 'Processor Name' / 'Processor Speed'.
+                # Grep for both variants to handle either version.
+                cpu="$(system_profiler SPHardwareDataType | grep -E '(CPU Type|Processor Name)')"
+                cpu="${cpu/CPU Type:/}"
+                cpu="${cpu/Processor Name:/}"
+                cpu="${cpu## }"
+
+                speed="$(system_profiler SPHardwareDataType | grep -E '(CPU Speed|Processor Speed)')"
+                speed="${speed/CPU Speed:/}"
+                speed="${speed/Processor Speed:/}"
+                speed="${speed/ MHz/}"
+                speed="${speed/ GHz/}"
+                speed="${speed## }"
 
                 cores="$(system_profiler SPHardwareDataType | grep Number\ Of\ CPUs)"
                 cores="${cores/Number\ Of\ CPUs\:/}"
@@ -2939,7 +2962,9 @@ get_cpu() {
             cpu="$cpu @ ${speed}MHz"
         else
             [[ "$speed_shorthand" == "on" ]] && speed="$((speed / 100))"
-            speed="${speed:0:1}.${speed:1}"
+            # Only insert a decimal point if the speed doesn't already have one
+            # (e.g., system_profiler on 10.4/10.5 returns values like "1.3" GHz).
+            [[ "$speed" != *.* ]] && speed="${speed:0:1}.${speed:1}"
             cpu="$cpu @ ${speed}GHz"
         fi
     fi
@@ -3210,14 +3235,25 @@ EOF
         "Mac OS X" | "macOS" | "iPhone OS")
             mem_total="$(($(sysctl -n hw.memsize) / 1024 / 1024))"
             # Single vm_stat call instead of 3 separate calls (saves ~300-500ms)
-            read -r mem_wired mem_active mem_compressed <<< "$(vm_stat | awk '
-                / wired/    { wired = $4 }
-                / active/   { active = $3 }
-                / occupied/ { compressed = $5 }
-                END { print wired, active, compressed }
-            ')"
-            mem_compressed="${mem_compressed:-0}"
-            mem_used="$(((${mem_wired//.} + ${mem_active//.} + ${mem_compressed//.}) * 4 / 1024))"
+            if [[ $osx_version =~ "10.4" || $osx_version =~ "10.5" ]]; then
+                # Tiger/Leopard: vm_stat lacks 'wired' and 'occupied' fields.
+                # Use 'inactive' + 'active' instead.
+                read -r mem_inactive mem_active <<< "$(vm_stat | awk '
+                    / inactive/ { inactive = $3 }
+                    / active/   { active = $3 }
+                    END { print inactive, active }
+                ')"
+                mem_used="$(((${mem_inactive//.} + ${mem_active//.}) * 4 / 1024))"
+            else
+                read -r mem_wired mem_active mem_compressed <<< "$(vm_stat | awk '
+                    / wired/    { wired = $4 }
+                    / active/   { active = $3 }
+                    / occupied/ { compressed = $5 }
+                    END { print wired, active, compressed }
+                ')"
+                mem_compressed="${mem_compressed:-0}"
+                mem_used="$(((${mem_wired//.} + ${mem_active//.} + ${mem_compressed//.}) * 4 / 1024))"
+            fi
         ;;
 
         "BSD" | "MINIX" | "ravynOS")
